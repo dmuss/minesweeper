@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 
-bool Game::is_init_ = false;
+bool Game::isInit_ = false;
 
 Game::Game()
     : running_(true),
@@ -25,6 +25,10 @@ void Game::HandleMouseButtonEvent(SDL_Event* event) {
 SDL_AppResult Game::Tick() {
   if (!running_) { return SDL_APP_SUCCESS; }
 
+  currFrame_ = SDL_GetTicks();
+  delta_ = currFrame_ - lastFrame_;
+  lastFrame_ = currFrame_;
+
   auto time = static_cast<float>(SDL_GetTicks()) / 1000.0f;
   auto r = static_cast<uint8_t>((std::sin(time) + 1) / 2.0 * 255);
   auto g = static_cast<uint8_t>((std::sin(time / 2) + 1) / 2.0 * 255);
@@ -34,6 +38,10 @@ SDL_AppResult Game::Tick() {
   SDL_RenderClear(renderer_.get());
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), nullptr, nullptr);
   SDL_RenderPresent(renderer_.get());
+
+  if (delta_ < targetFrameTimeMS_) {
+    SDL_Delay(static_cast<uint32_t>(targetFrameTimeMS_ - delta_));
+  }
 
   return SDL_APP_CONTINUE;
 }

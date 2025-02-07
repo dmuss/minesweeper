@@ -10,9 +10,14 @@
 
 class Game {
  private:
-  static bool is_init_;
+  static bool isInit_;
+  static constexpr uint8_t TARGET_FPS_ = 30;
+  static constexpr uint8_t TARGET_FRAME_TIME_MS_ = 1000 / TARGET_FPS_;
 
   bool running_;
+  uint64_t currFrameMS_;
+  uint64_t lastFrameMS_;
+  uint64_t deltaMS_;
 
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
