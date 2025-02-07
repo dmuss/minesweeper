@@ -9,13 +9,6 @@
 #include "sdl_helpers.hpp"
 
 class Game {
- public:
-  Game();
-
-  SDL_AppResult Tick();
-
-  void HandleMouseButtonEvent(SDL_Event* event);
-
  private:
   static bool is_init_;
 
@@ -24,6 +17,13 @@ class Game {
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
   SDL3::TextureUPtr spritesheet_;
+
+ public:
+  Game();
+
+  SDL_AppResult Tick();
+
+  void HandleMouseButtonEvent(SDL_Event* event);
 };
 
 #endif
