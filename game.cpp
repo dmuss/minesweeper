@@ -21,9 +21,19 @@ Game::Game()
 }
 
 void Game::HandleMouseButtonEvent(SDL_Event* event) {
-  SDL_Log("(%0.0f, %0.0f) || b: %d || down: %d || clicks: %d", event->button.x,
-          event->button.y, event->button.button, event->button.down,
-          event->button.clicks);
+  bool leftClicked = (event->button.button == SDL_BUTTON_LEFT) &&
+                     !event->button.down && event->button.clicks > 0;
+  bool rightClicked = (event->button.button == SDL_BUTTON_RIGHT) &&
+                      !event->button.down && event->button.clicks > 0;
+
+  SDL_Point gridPos = {
+      .x = static_cast<int>(std::floor(event->button.x / CELL_RENDER_SIZE_PX_)),
+      .y = static_cast<int>(std::floor(event->button.y / CELL_RENDER_SIZE_PX_)),
+  };
+
+  if (leftClicked) { minefield_.RevealCell(gridPos); }
+
+  if (rightClicked) { minefield_.ChangeFlag(gridPos); }
 }
 
 SDL_AppResult Game::Tick() {

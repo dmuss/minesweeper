@@ -44,6 +44,27 @@ class Cell {
 
   SDL_Point Pos() const { return pos_; }
   CellState State() const { return state_; }
+
+  void Reveal() { state_ = static_cast<CellState>(value_); }
+
+  void ChangeFlag() {
+    switch (state_) {
+      case CellState::Unrevealed: {
+        state_ = CellState::Flagged;
+        break;
+      }
+      case CellState::Flagged: {
+        state_ = CellState::Question;
+        break;
+      }
+      case CellState::Question: {
+        state_ = CellState::Unrevealed;
+        break;
+      }
+      default:
+        break;
+    }
+  }
 };
 
 #endif
