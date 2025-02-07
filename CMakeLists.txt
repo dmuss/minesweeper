@@ -75,7 +75,7 @@ set(SDLIMAGE_XV OFF)
 add_subdirectory(extern/SDL_image EXCLUDE_FROM_ALL)
 
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp game.cpp)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME} PRIVATE
 -Wall -Wextra -Wshadow -Wcast-align -Wunused
