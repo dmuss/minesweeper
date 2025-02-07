@@ -1,5 +1,5 @@
-#ifndef SPRITES_HPP
-#define SPRITES_HPP
+#ifndef SPRITES_HPP_
+#define SPRITES_HPP_
 
 #include <array>
 

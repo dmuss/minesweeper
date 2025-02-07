@@ -1,5 +1,5 @@
-#ifndef SDL_HELPERS_HPP
-#define SDL_HELPERS_HPP
+#ifndef SDL_HELPERS_HPP_
+#define SDL_HELPERS_HPP_
 
 #include <memory>
 #include <utility>
