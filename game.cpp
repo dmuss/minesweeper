@@ -46,8 +46,8 @@ SDL_AppResult Game::Tick() {
   SDL_RenderClear(renderer_.get());
   for (const auto& cell : minefield_.Cells()) {
     SDL_FRect destRect = {
-        .x = static_cast<float>(cell.Pos().x * CELL_RENDER_SIZE_PX_),
-        .y = static_cast<float>(cell.Pos().y * CELL_RENDER_SIZE_PX_),
+        .x = static_cast<float>(cell.X() * CELL_RENDER_SIZE_PX_),
+        .y = static_cast<float>(cell.Y() * CELL_RENDER_SIZE_PX_),
         .w = CELL_RENDER_SIZE_PX_,
         .h = CELL_RENDER_SIZE_PX_,
     };

@@ -1,6 +1,8 @@
 #ifndef CELL_HPP_
 #define CELL_HPP_
 
+#include <algorithm>
+
 #include <SDL3/SDL_rect.h>
 
 /// Represents the current state of the cell as rendered in the minefield.
@@ -42,8 +44,18 @@ class Cell {
  public:
   Cell(SDL_Point pos) : pos_(pos) {}
 
-  SDL_Point Pos() const { return pos_; }
+  int X() const { return pos_.x; }
+  int Y() const { return pos_.y; }
   CellState State() const { return state_; }
+
+  void SetMine() { value_ = static_cast<uint8_t>(CellState::Mine); }
+
+  void AddAdjacentMine() {
+    // TODO: Can we avoid these casts?
+    value_ =
+        std::clamp(static_cast<uint8_t>(value_ + 1), static_cast<uint8_t>(0),
+                   static_cast<uint8_t>(CellState::Mine));
+  }
 
   void Reveal() { state_ = static_cast<CellState>(value_); }
 

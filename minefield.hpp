@@ -1,13 +1,27 @@
 #ifndef MINEFIELD_HPP_
 #define MINEFIELD_HPP_
 
+#include <array>
+#include <random>
+#include <unordered_set>
 #include <vector>
 
 #include "cell.hpp"
 
+// TODO: Is this sufficient for what we need here?
+struct PointHasher {
+  size_t operator()(const SDL_Point point) const {
+    return std::hash<int>()(point.x) ^ std::hash<int>()(point.y);
+  }
+};
+
+constexpr bool operator==(const SDL_Point& first, const SDL_Point& second) {
+  return (first.x == second.x) && (first.y == second.y);
+}
+
 class Minefield {
  private:
-  SDL_Point gridSize_ = {.x = 9, .y = 9};
+  SDL_Point gridSize_ = {.x = 9, .y = 9};  // TODO: Configurable.
   std::vector<Cell> cells_;
 
   Cell& getCellAt_(SDL_Point pos) {
@@ -15,8 +29,34 @@ class Minefield {
     return cells_.at(i);
   }
 
+  bool inBounds_(SDL_Point pos) {
+    return (pos.x >= 0 && pos.x < gridSize_.x) &&
+           (pos.y >= 0 && pos.y < gridSize_.y);
+  }
+
+  void setMine_(Cell& cell) {
+    cell.SetMine();
+
+    const std::array<SDL_Point, 8> dirs{
+        SDL_Point{.x = -1, .y = 0}, SDL_Point{.x = -1, .y = -1},
+        SDL_Point{.x = 0, .y = -1}, SDL_Point{.x = 1, .y = -1},
+        SDL_Point{.x = 1, .y = 0},  SDL_Point{.x = 1, .y = 1},
+        SDL_Point{.x = 0, .y = 1},  SDL_Point{.x = -1, .y = 1},
+    };
+
+    for (const auto& dir : dirs) {
+      SDL_Point neighbour = {
+          .x = cell.X() + dir.x,
+          .y = cell.Y() + dir.y,
+      };
+
+      if (inBounds_(neighbour)) { getCellAt_(neighbour).AddAdjacentMine(); }
+    }
+  }
+
  public:
   Minefield() {
+    // Create grid.
     for (auto i = 0; i < gridSize_.x * gridSize_.y; ++i) {
       SDL_Point pos = {
           .x = i % gridSize_.x,
@@ -24,6 +64,28 @@ class Minefield {
       };
       cells_.push_back(Cell(pos));
     }
+
+    // Set mines.
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<uint8_t> randX(
+        0, static_cast<uint8_t>(gridSize_.x - 1));
+    std::uniform_int_distribution<uint8_t> randY(
+        0, static_cast<uint8_t>(gridSize_.y - 1));
+
+    std::unordered_set<SDL_Point, PointHasher> mines{};
+    while (mines.size() < 10) {  // TODO: Remove magic nubmer.
+      SDL_Point pos = {
+          .x = randX(gen),
+          .y = randY(gen),
+      };
+
+      auto [_, inserted] = mines.insert(pos);
+      if (inserted) { setMine_(getCellAt_(pos)); }
+    }
+
+    // TODO: temporarily reveal all cells
+    for (auto& cell : cells_) { cell.Reveal(); }
   }
 
   std::vector<Cell> Cells() const { return cells_; }
