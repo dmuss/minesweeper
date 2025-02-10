@@ -54,6 +54,9 @@ class Cell {
   int Y() const;
   /// Returns the cell's current render state.
   CellState State() const;
+  /// Returns whether this cell is empty.
+  bool Empty() const;
+
   /// Sets the current cell as a mine.
   void SetMine();
   /// Adds an adjacent mine to this cell, updating its value.
@@ -67,5 +70,9 @@ class Cell {
   /// Cycles through unrevealed, flagged, and question mark render states.
   void ChangeFlag();
 };
+
+inline bool operator==(const Cell& first, const Cell& second) {
+  return (first.X() == second.X()) && (first.Y() == second.Y());
+}
 
 #endif

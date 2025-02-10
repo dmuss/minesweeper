@@ -5,8 +5,14 @@
 Cell::Cell(SDL_Point pos) : pos_(pos) {}
 
 int Cell::X() const { return pos_.x; }
+
 int Cell::Y() const { return pos_.y; }
+
 CellState Cell::State() const { return state_; }
+
+bool Cell::Empty() const {
+  return value_ == static_cast<uint8_t>(CellState::Empty);
+}
 
 void Cell::SetMine() { value_ = static_cast<uint8_t>(CellState::Mine); }
 
