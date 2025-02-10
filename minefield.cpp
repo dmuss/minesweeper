@@ -3,6 +3,10 @@
 #include <random>
 #include "SDL3/SDL_log.h"
 
+void Minefield::reveal_() {
+  for (auto& cell : cells_) { cell.Reveal(); }
+}
+
 Cell& Minefield::getCellAt_(SDL_Point pos) {
   size_t i = static_cast<size_t>(gridSize_.x * pos.y + pos.x);
   return cells_.at(i);
@@ -115,17 +119,16 @@ void Minefield::RevealCell(SDL_Point pos) {
   revealCell_(cell);
 
   if (cell.IsMine()) {
-    // TODO: player loses, mark losing cell red and reveal minefield
-    SDL_Log("Player loses");
     state_ = MinefieldState::Lost;
+    cell.SetRevealedMine();
+    reveal_();
   }
 
   if (cell.IsEmpty()) { floodReveal_(cell); }
 
   if (cells_.size() - numMines_ - numRevealedCells_ == 0) {
-    // TODO: player wins, reveal minefield
-    SDL_Log("Player wins!");
     state_ = MinefieldState::Won;
+    reveal_();
   }
 }
 

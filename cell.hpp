@@ -61,8 +61,10 @@ class Cell {
   /// Returns whether this cell contains a mine.
   bool IsMine() const;
 
-  /// Sets the current cell as a mine.
+  /// Sets the current cell to a mine.
   void SetMine();
+  /// Sets the current cell to a revealed mine.
+  void SetRevealedMine();
   /// Adds an adjacent mine to this cell, updating its value.
   ///
   /// That is, adds one to the underlying value of the cell, clamping in [0, 9].

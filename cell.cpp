@@ -25,6 +25,10 @@ bool Cell::IsMine() const {
 
 void Cell::SetMine() { value_ = static_cast<uint8_t>(CellState::Mine); }
 
+void Cell::SetRevealedMine() {
+  value_ = static_cast<uint8_t>(CellState::RevealedMine);
+}
+
 void Cell::AddAdjacentMine() {
   // TODO: Can we avoid these casts?
   value_ = std::clamp(static_cast<uint8_t>(value_ + 1),

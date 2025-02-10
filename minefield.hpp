@@ -38,6 +38,9 @@ class Minefield {
   uint16_t numRevealedCells_ = 0;
   std::vector<Cell> cells_;
 
+  /// Reveals the whole minefield.
+  void reveal_();
+
   /// Returns a reference to the cell at the provided position.
   Cell& getCellAt_(SDL_Point pos);
 
