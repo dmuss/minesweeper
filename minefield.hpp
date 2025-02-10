@@ -7,6 +7,8 @@
 
 #include "cell.hpp"
 
+enum class MinefieldState : uint8_t { Playing, Won, Lost };
+
 // TODO: Is this sufficient for what we need here?
 struct Hasher {
   size_t operator()(const SDL_Point point) const {
@@ -31,10 +33,16 @@ class Minefield {
       SDL_Point{.x = 0, .y = 1},  SDL_Point{.x = -1, .y = 1},
   };
   SDL_Point gridSize_ = {.x = 9, .y = 9};  // TODO: Configurable.
+  MinefieldState state_ = MinefieldState::Playing;
+  uint8_t numMines_ = 10;
+  uint16_t numRevealedCells_ = 0;
   std::vector<Cell> cells_;
 
   /// Returns a reference to the cell at the provided position.
   Cell& getCellAt_(SDL_Point pos);
+
+  /// Reveals the provided cell and increments the number of revealed cells.
+  void revealCell_(Cell& cell);
 
   /// Returns whether the given position is within the bounds of the minefield.
   bool inBounds_(SDL_Point pos);
@@ -54,11 +62,13 @@ class Minefield {
  public:
   Minefield();
 
+  MinefieldState State() const;
+
   /// Returns all of the current cells in the minefield.
   std::vector<Cell> Cells() const;
 
   /// Reveals the cell at the provided position in the minefield.
-  CellState RevealCell(SDL_Point pos);
+  void RevealCell(SDL_Point pos);
 
   /// Change the flagged state of the cell at the provided position in the
   /// minefield.

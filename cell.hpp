@@ -55,7 +55,11 @@ class Cell {
   /// Returns the cell's current render state.
   CellState State() const;
   /// Returns whether this cell is empty.
-  bool Empty() const;
+  bool IsEmpty() const;
+  /// Returns whether this cell has been revealed or not.
+  bool IsRevealed() const;
+  /// Returns whether this cell contains a mine.
+  bool IsMine() const;
 
   /// Sets the current cell as a mine.
   void SetMine();

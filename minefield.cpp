@@ -1,10 +1,18 @@
 #include "minefield.hpp"
 
 #include <random>
+#include "SDL3/SDL_log.h"
 
 Cell& Minefield::getCellAt_(SDL_Point pos) {
   size_t i = static_cast<size_t>(gridSize_.x * pos.y + pos.x);
   return cells_.at(i);
+}
+
+void Minefield::revealCell_(Cell& cell) {
+  if (!cell.IsRevealed()) {
+    cell.Reveal();
+    ++numRevealedCells_;
+  }
 }
 
 bool Minefield::inBounds_(SDL_Point pos) {
@@ -33,9 +41,10 @@ void Minefield::floodReveal_(Cell& cell) {
 
 void Minefield::recurseFlood_(Cell& cell,
                               std::unordered_set<Cell, Hasher>& revealed) {
-  if (revealed.contains(cell) || !cell.Empty()) { return; }
+  if (revealed.contains(cell) || !cell.IsEmpty()) { return; }
 
-  cell.Reveal();
+  revealCell_(cell);
+
   revealed.insert(cell);
 
   for (const auto& dir : dirs_) {
@@ -59,7 +68,7 @@ void Minefield::revealNeighbours_(
           .y = cell.Y() + dir.y,
       };
 
-      if (inBounds_(neighbourPos)) { getCellAt_(neighbourPos).Reveal(); }
+      if (inBounds_(neighbourPos)) { revealCell_(getCellAt_(neighbourPos)); }
     }
   }
 }
@@ -83,7 +92,7 @@ Minefield::Minefield() {
       0, static_cast<uint8_t>(gridSize_.y - 1));
 
   std::unordered_set<SDL_Point, Hasher> mines{};
-  while (mines.size() < 10) {  // TODO: Remove magic number.
+  while (mines.size() < numMines_) {
     SDL_Point pos = {
         .x = randX(gen),
         .y = randY(gen),
@@ -94,18 +103,30 @@ Minefield::Minefield() {
   }
 }
 
+MinefieldState Minefield::State() const { return state_; }
+
 std::vector<Cell> Minefield::Cells() const { return cells_; }
 
-CellState Minefield::RevealCell(SDL_Point pos) {
+void Minefield::RevealCell(SDL_Point pos) {
   auto& cell = getCellAt_(pos);
 
   // TODO: First click protection.
 
-  cell.Reveal();
+  revealCell_(cell);
 
-  if (cell.Empty()) { floodReveal_(cell); }
+  if (cell.IsMine()) {
+    // TODO: player loses, mark losing cell red and reveal minefield
+    SDL_Log("Player loses");
+    state_ = MinefieldState::Lost;
+  }
 
-  return cell.State();
+  if (cell.IsEmpty()) { floodReveal_(cell); }
+
+  if (cells_.size() - numMines_ - numRevealedCells_ == 0) {
+    // TODO: player wins, reveal minefield
+    SDL_Log("Player wins!");
+    state_ = MinefieldState::Won;
+  }
 }
 
 void Minefield::ChangeFlag(SDL_Point pos) { getCellAt_(pos).ChangeFlag(); }

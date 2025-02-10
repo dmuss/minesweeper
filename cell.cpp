@@ -10,8 +10,17 @@ int Cell::Y() const { return pos_.y; }
 
 CellState Cell::State() const { return state_; }
 
-bool Cell::Empty() const {
+bool Cell::IsEmpty() const {
   return value_ == static_cast<uint8_t>(CellState::Empty);
+}
+
+bool Cell::IsRevealed() const {
+  return (state_ != CellState::Unrevealed) && (state_ != CellState::Flagged) &&
+         (state_ != CellState::Question);
+}
+
+bool Cell::IsMine() const {
+  return value_ == static_cast<uint8_t>(CellState::Mine);
 }
 
 void Cell::SetMine() { value_ = static_cast<uint8_t>(CellState::Mine); }
