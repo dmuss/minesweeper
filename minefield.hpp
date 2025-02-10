@@ -9,20 +9,6 @@
 
 enum class MinefieldState : uint8_t { Playing, Won, Lost };
 
-// TODO: Is this sufficient for what we need here?
-struct Hasher {
-  size_t operator()(const SDL_Point point) const {
-    return std::hash<int>()(point.x) ^ std::hash<int>()(point.y);
-  }
-  size_t operator()(const Cell cell) const {
-    return std::hash<int>()(cell.X()) ^ std::hash<int>()(cell.Y());
-  }
-};
-
-constexpr bool operator==(const SDL_Point& first, const SDL_Point& second) {
-  return (first.x == second.x) && (first.y == second.y);
-}
-
 class Minefield {
  private:
   /// Array of directions to get neighbouring cells.
@@ -57,10 +43,10 @@ class Minefield {
   void floodReveal_(Cell& cell);
 
   /// Recursive flood reveal of all empty cells adjacent to `cell`.
-  void recurseFlood_(Cell& cell, std::unordered_set<Cell, Hasher>& revealed);
+  void recurseFlood_(Cell& cell, std::unordered_set<Cell, CellHash>& revealed);
 
   /// Reveal the all neighbouring cells to those contained in `revealed`.
-  void revealNeighbours_(const std::unordered_set<Cell, Hasher>& revealed);
+  void revealNeighbours_(const std::unordered_set<Cell, CellHash>& revealed);
 
  public:
   Minefield();

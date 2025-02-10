@@ -1,7 +1,7 @@
 #include "minefield.hpp"
 
 #include <random>
-#include "SDL3/SDL_log.h"
+#include "sdl_helpers.hpp"
 
 void Minefield::reveal_() {
   for (auto& cell : cells_) { cell.Reveal(); }
@@ -38,13 +38,13 @@ void Minefield::setMine_(Cell& cell) {
 }
 
 void Minefield::floodReveal_(Cell& cell) {
-  std::unordered_set<Cell, Hasher> revealed{};
+  std::unordered_set<Cell, CellHash> revealed{};
   recurseFlood_(cell, revealed);
   revealNeighbours_(revealed);
 }
 
 void Minefield::recurseFlood_(Cell& cell,
-                              std::unordered_set<Cell, Hasher>& revealed) {
+                              std::unordered_set<Cell, CellHash>& revealed) {
   if (revealed.contains(cell) || !cell.IsEmpty()) { return; }
 
   revealCell_(cell);
@@ -64,7 +64,7 @@ void Minefield::recurseFlood_(Cell& cell,
 }
 
 void Minefield::revealNeighbours_(
-    const std::unordered_set<Cell, Hasher>& revealed) {
+    const std::unordered_set<Cell, CellHash>& revealed) {
   for (const auto& cell : revealed) {
     for (const auto& dir : dirs_) {
       SDL_Point neighbourPos{
@@ -95,7 +95,7 @@ Minefield::Minefield() {
   std::uniform_int_distribution<uint8_t> randY(
       0, static_cast<uint8_t>(gridSize_.y - 1));
 
-  std::unordered_set<SDL_Point, Hasher> mines{};
+  std::unordered_set<SDL_Point, SDLPointHash> mines{};
   while (mines.size() < numMines_) {
     SDL_Point pos = {
         .x = randX(gen),

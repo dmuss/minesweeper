@@ -1,6 +1,8 @@
 #ifndef CELL_HPP_
 #define CELL_HPP_
 
+#include <functional>
+
 // TODO: Move SDL headers into single header file to suppress old-style-cast
 // warnings? Is there a way to ignore warnings for certain headers?
 #pragma GCC diagnostic push
@@ -48,6 +50,10 @@ class Cell {
   /// Create a cell at a given position.
   Cell(SDL_Point pos);
 
+  inline bool operator==(const Cell& other) const {
+    return (this->X() == other.X()) && (this->Y() == other.Y());
+  }
+
   /// Returns the `x` coordinate of the cell.
   int X() const;
   /// Returns the `y` coordinate of the cell.
@@ -77,8 +83,11 @@ class Cell {
   void ChangeFlag();
 };
 
-inline bool operator==(const Cell& first, const Cell& second) {
-  return (first.X() == second.X()) && (first.Y() == second.Y());
-}
+// TODO: Is this sufficient for what we need here?
+struct CellHash {
+  size_t operator()(const Cell cell) const {
+    return std::hash<int>()(cell.X()) ^ std::hash<int>()(cell.Y());
+  }
+};
 
 #endif
