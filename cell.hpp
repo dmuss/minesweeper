@@ -1,9 +1,12 @@
 #ifndef CELL_HPP_
 #define CELL_HPP_
 
-#include <algorithm>
-
+// TODO: Move SDL headers into single header file to suppress old-style-cast
+// warnings? Is there a way to ignore warnings for certain headers?
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL3/SDL_rect.h>
+#pragma GCC diagnostic pop
 
 /// Represents the current state of the cell as rendered in the minefield.
 ///
@@ -42,41 +45,27 @@ class Cell {
   CellState state_ = CellState::Unrevealed;
 
  public:
-  Cell(SDL_Point pos) : pos_(pos) {}
+  /// Create a cell at a given position.
+  Cell(SDL_Point pos);
 
-  int X() const { return pos_.x; }
-  int Y() const { return pos_.y; }
-  CellState State() const { return state_; }
-
-  void SetMine() { value_ = static_cast<uint8_t>(CellState::Mine); }
-
-  void AddAdjacentMine() {
-    // TODO: Can we avoid these casts?
-    value_ =
-        std::clamp(static_cast<uint8_t>(value_ + 1), static_cast<uint8_t>(0),
-                   static_cast<uint8_t>(CellState::Mine));
-  }
-
-  void Reveal() { state_ = static_cast<CellState>(value_); }
-
-  void ChangeFlag() {
-    switch (state_) {
-      case CellState::Unrevealed: {
-        state_ = CellState::Flagged;
-        break;
-      }
-      case CellState::Flagged: {
-        state_ = CellState::Question;
-        break;
-      }
-      case CellState::Question: {
-        state_ = CellState::Unrevealed;
-        break;
-      }
-      default:
-        break;
-    }
-  }
+  /// Returns the `x` coordinate of the cell.
+  int X() const;
+  /// Returns the `y` coordinate of the cell.
+  int Y() const;
+  /// Returns the cell's current render state.
+  CellState State() const;
+  /// Sets the current cell as a mine.
+  void SetMine();
+  /// Adds an adjacent mine to this cell, updating its value.
+  ///
+  /// That is, adds one to the underlying value of the cell, clamping in [0, 9].
+  void AddAdjacentMine();
+  /// Reveals this current cell.
+  void Reveal();
+  /// Updates the flagged state of this cell.
+  ///
+  /// Cycles through unrevealed, flagged, and question mark render states.
+  void ChangeFlag();
 };
 
 #endif
