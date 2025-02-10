@@ -69,12 +69,21 @@ class Cell {
 
   /// Sets the current cell to a mine.
   void SetMine();
+  /// Sets the current cell to a empty.
+  void SetEmpty();
   /// Sets the current cell to a revealed mine.
   void SetRevealedMine();
-  /// Adds an adjacent mine to this cell, updating its value.
+  /// Update the state of this cell reflecting the adddition of an adjacent
+  /// mine.
   ///
-  /// That is, adds one to the underlying value of the cell, clamping in [0, 9].
+  /// That is, adds one to the underlying value of the cell, clamping in
+  /// [CellState::Empty, CellState::Mine].
   void AddAdjacentMine();
+  /// Update the state of this cell reflecting the removal of an adjacent mine.
+  ///
+  /// That is, subtracts one from the underlying value of the cell, clamping in
+  /// [CellState::Empty, CellState::Mine].
+  void RemoveAdjacentMine();
   /// Reveals this current cell.
   void Reveal();
   /// Updates the flagged state of this cell.
@@ -83,7 +92,6 @@ class Cell {
   void ChangeFlag();
 };
 
-// TODO: Is this sufficient for what we need here?
 struct CellHash {
   size_t operator()(const Cell cell) const {
     return std::hash<int>()(cell.X()) ^ std::hash<int>()(cell.Y());

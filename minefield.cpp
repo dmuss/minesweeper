@@ -1,6 +1,7 @@
 #include "minefield.hpp"
 
 #include <random>
+
 #include "sdl_helpers.hpp"
 
 void Minefield::reveal_() {
@@ -34,6 +35,19 @@ void Minefield::setMine_(Cell& cell) {
     };
 
     if (inBounds_(neighbour)) { getCellAt_(neighbour).AddAdjacentMine(); }
+  }
+}
+
+void Minefield::removeMine_(Cell& cell) {
+  cell.SetEmpty();
+
+  for (const auto& dir : dirs_) {
+    SDL_Point neighbour = {
+        .x = cell.X() + dir.x,
+        .y = cell.Y() + dir.y,
+    };
+
+    if (inBounds_(neighbour)) { getCellAt_(neighbour).RemoveAdjacentMine(); }
   }
 }
 
@@ -77,6 +91,15 @@ void Minefield::revealNeighbours_(
   }
 }
 
+void Minefield::moveMineToNextAvailablePos_() {
+  for (auto& cell : cells_) {
+    if (!cell.IsMine()) {
+      setMine_(cell);
+      break;
+    }
+  }
+}
+
 Minefield::Minefield() {
   // Create grid.
   for (auto i = 0; i < gridSize_.x * gridSize_.y; ++i) {
@@ -114,7 +137,14 @@ std::vector<Cell> Minefield::Cells() const { return cells_; }
 void Minefield::RevealCell(SDL_Point pos) {
   auto& cell = getCellAt_(pos);
 
-  // TODO: First click protection.
+  if (isFirstClick_) {
+    isFirstClick_ = false;
+
+    if (cell.IsMine()) {
+      removeMine_(cell);
+      moveMineToNextAvailablePos_();
+    }
+  }
 
   revealCell_(cell);
 

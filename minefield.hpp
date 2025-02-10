@@ -18,6 +18,7 @@ class Minefield {
       SDL_Point{.x = 1, .y = 0},  SDL_Point{.x = 1, .y = 1},
       SDL_Point{.x = 0, .y = 1},  SDL_Point{.x = -1, .y = 1},
   };
+  bool isFirstClick_ = true;
   SDL_Point gridSize_ = {.x = 9, .y = 9};  // TODO: Configurable.
   MinefieldState state_ = MinefieldState::Playing;
   uint8_t numMines_ = 10;
@@ -39,6 +40,9 @@ class Minefield {
   /// Sets the provided cell as a mine.
   void setMine_(Cell& cell);
 
+  /// Removes a mine at the provided cell.
+  void removeMine_(Cell& cell);
+
   /// Reveals all empty cells and their neighbours.
   void floodReveal_(Cell& cell);
 
@@ -47,6 +51,10 @@ class Minefield {
 
   /// Reveal the all neighbouring cells to those contained in `revealed`.
   void revealNeighbours_(const std::unordered_set<Cell, CellHash>& revealed);
+
+  /// Starting at the top and moving left-to-right across each row of the
+  /// minefield, set the first non-mine cell to a mine.
+  void setMineNextAvailablePos_();
 
  public:
   Minefield();
