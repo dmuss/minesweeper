@@ -35,7 +35,7 @@ void MenuScene::Update([[maybe_unused]] Game& game,
         } else if (button.label == "HARD") {
           game.StartGame(GameDifficulty::Hard);
         } else {
-          SDL_Log("quit request");
+          game.Quit();
         }
       } else {
         button.isDown = false;

@@ -56,6 +56,10 @@ void Game::StartGame(GameDifficulty difficulty) {
   sceneManager_.SwitchScene(Scene::Game);
 }
 
+void Game::GoToMenu() { sceneManager_.SwitchScene(Scene::Menu); }
+
+void Game::Quit() { running_ = false; }
+
 void Game::SetWindowSize(SDL_Point requestedSize) {
   // TODO: SDL error checks through helper/macro.
   if (!SDL_SetWindowSize(window_.get(), requestedSize.x, requestedSize.y)) {

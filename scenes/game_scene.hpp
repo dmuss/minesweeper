@@ -6,10 +6,6 @@
 
 class GameScene final : public SceneInterface {
  private:
-  // TODO: Grid dimensions should exist in Minefield. When minefield is to be
-  // displayed, resize window based on the size of the minefield.
-  static constexpr uint8_t CELL_GRID_WIDTH_ = 9;
-  static constexpr uint8_t CELL_GRID_HEIGHT_ = 9;
   static constexpr uint8_t CELL_RENDER_SIZE_PX_ = 50;
 
   bool playing_ = true;

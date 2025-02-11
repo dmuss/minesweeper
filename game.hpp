@@ -44,6 +44,12 @@ class Game {
   /// \param difficulty The requested difficulty to start the game with.
   void StartGame(GameDifficulty difficulty);
 
+  /// Return to the main menu scene.
+  void GoToMenu();
+
+  /// Quits the game.
+  void Quit();
+
   /// Sets the game's current window to the requested size.
   ///
   /// \param requestedSize The requested window dimensions.

@@ -30,10 +30,7 @@ void GameScene::Update([[maybe_unused]] Game& game, SDL_Event* mouseEvent) {
 
     if (rightClicked) { minefield_->ChangeFlag(gridPos); }
   } else {
-    if (leftClicked || rightClicked) {
-      // TODO: Go back to menu.
-      SDL_Log("Go back to menu!");
-    }
+    if (leftClicked || rightClicked) { game.GoToMenu(); }
   }
 }
 
