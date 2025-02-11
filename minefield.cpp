@@ -91,7 +91,7 @@ void Minefield::revealNeighbours_(
   }
 }
 
-void Minefield::moveMineToNextAvailablePos_() {
+void Minefield::setMineNextAvailablePos_() {
   for (auto& cell : cells_) {
     if (!cell.IsMine()) {
       setMine_(cell);
@@ -142,7 +142,7 @@ void Minefield::RevealCell(SDL_Point pos) {
 
     if (cell.IsMine()) {
       removeMine_(cell);
-      moveMineToNextAvailablePos_();
+      setMineNextAvailablePos_();
     }
   }
 

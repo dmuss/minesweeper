@@ -1,12 +1,7 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#include <SDL3/SDL_init.h>
-#pragma GCC diagnostic pop
-
-#include "minefield.hpp"
+#include "scenes/game_scene.hpp"
 #include "sdl_helpers.hpp"
 
 class Game {
@@ -16,18 +11,13 @@ class Game {
   static constexpr uint8_t TARGET_FPS_ = 30;
   static constexpr uint8_t TARGET_FRAME_TIME_MS_ = 1000 / TARGET_FPS_;
 
-  // TODO: Grid dimensions should exist in Minefield. When minefield is to be
-  // displayed, resize window based on the size of the minefield.
-  static constexpr uint8_t CELL_GRID_WIDTH_ = 9;
-  static constexpr uint8_t CELL_GRID_HEIGHT_ = 9;
-  static constexpr uint8_t CELL_RENDER_SIZE_PX_ = 50;
-
   bool running_;
   uint64_t currFrameMS_;
   uint64_t lastFrameMS_;
   uint64_t deltaMS_;
 
-  Minefield minefield_;
+  // TODO: TEMP
+  GameScene gameScene_;
 
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
@@ -36,9 +26,24 @@ class Game {
  public:
   Game();
 
+  /// Handles the provided SDL mouse button event.
+  ///
+  /// \param mouseEvent The current mouse button event to handle.
+  void HandleMouseButtonEvent(SDL_Event* mouseEvent);
+
+  /// Advances the game a single tick, including any updates and rendering.
   SDL_AppResult Tick();
 
-  void HandleMouseButtonEvent(SDL_Event* event);
+  /// Sets the game's current window to the requested size.
+  ///
+  /// \param requestedSize The requested window dimensions.
+  void SetWindowSize(SDL_Point requestedSize);
+
+  /// Renders a sprite from the spritesheet at the provided destination.
+  ///
+  /// \param srcRect The source rectangle for the sprite to render.
+  /// \param destRect The location on the window to render the sprite.
+  void RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect);
 };
 
 #endif

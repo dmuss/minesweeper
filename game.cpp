@@ -9,35 +9,26 @@ bool Game::isInit_ = false;
 
 Game::Game()
     : running_(true),
-      window_(SDL3::CreateWindow("minesweeper",
-                                 CELL_GRID_WIDTH_ * CELL_RENDER_SIZE_PX_,
-                                 CELL_GRID_HEIGHT_ * CELL_RENDER_SIZE_PX_, 0)),
+      // Window size set in scene.
+      window_(SDL3::CreateWindow("minesweeper", 0, 0, 0)),
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")) {
   SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
+  SDL_assert(!isInit_);
+  isInit_ = true;
 
   SDL_SetTextureScaleMode(spritesheet_.get(), SDL_SCALEMODE_NEAREST);
+
+  // TODO: TEMP
+  gameScene_.OnEnter(*this);
 }
 
-void Game::HandleMouseButtonEvent(SDL_Event* event) {
-  bool leftClicked = (event->button.button == SDL_BUTTON_LEFT) &&
-                     !event->button.down && event->button.clicks > 0;
-  bool rightClicked = (event->button.button == SDL_BUTTON_RIGHT) &&
-                      !event->button.down && event->button.clicks > 0;
+void Game::HandleMouseButtonEvent(SDL_Event* mouseEvent) {
+  SDL_assert(mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_UP ||
+             mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_DOWN);
 
-  if (minefield_.State() == MinefieldState::Playing) {
-    SDL_Point gridPos = {
-        .x = static_cast<int>(
-            std::floor(event->button.x / CELL_RENDER_SIZE_PX_)),
-        .y = static_cast<int>(
-            std::floor(event->button.y / CELL_RENDER_SIZE_PX_)),
-    };
-
-    if (leftClicked) { minefield_.RevealCell(gridPos); }
-
-    if (rightClicked) { minefield_.ChangeFlag(gridPos); }
-  }
+  gameScene_.Update(*this, mouseEvent);
 }
 
 SDL_AppResult Game::Tick() {
@@ -48,17 +39,7 @@ SDL_AppResult Game::Tick() {
   lastFrameMS_ = currFrameMS_;
 
   SDL_RenderClear(renderer_.get());
-  for (const auto& cell : minefield_.Cells()) {
-    SDL_FRect destRect = {
-        .x = static_cast<float>(cell.X() * CELL_RENDER_SIZE_PX_),
-        .y = static_cast<float>(cell.Y() * CELL_RENDER_SIZE_PX_),
-        .w = CELL_RENDER_SIZE_PX_,
-        .h = CELL_RENDER_SIZE_PX_,
-    };
-    SDL_RenderTexture(renderer_.get(), spritesheet_.get(),
-                      &Sprites::Cells.at(static_cast<size_t>(cell.State())),
-                      &destRect);
-  }
+  gameScene_.Draw(*this);
   SDL_RenderPresent(renderer_.get());
 
   if (deltaMS_ < TARGET_FRAME_TIME_MS_) {
@@ -66,4 +47,12 @@ SDL_AppResult Game::Tick() {
   }
 
   return SDL_APP_CONTINUE;
+}
+
+void Game::SetWindowSize(SDL_Point requestedSize) {
+  SDL_SetWindowSize(window_.get(), requestedSize.x, requestedSize.y);
+}
+
+void Game::RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect) {
+  SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
 }

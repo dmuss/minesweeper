@@ -2,6 +2,7 @@
 #define MINEFIELD_HPP_
 
 #include <array>
+#include <memory>
 #include <unordered_set>
 #include <vector>
 
@@ -71,5 +72,7 @@ class Minefield {
   /// minefield.
   void ChangeFlag(SDL_Point pos);
 };
+
+using MinefieldUPtr = std::unique_ptr<Minefield>;
 
 #endif
