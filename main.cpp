@@ -23,7 +23,7 @@ SDL_AppResult SDL_AppInit(void** appstate, [[maybe_unused]] int argc,
 }
 
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
-  auto* app = static_cast<Game*>(appstate);
+  auto* game = static_cast<Game*>(appstate);
 
   switch (event->type) {
     case SDL_EVENT_QUIT: {
@@ -31,7 +31,7 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
     }
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
     case SDL_EVENT_MOUSE_BUTTON_UP: {
-      app->HandleMouseButtonEvent(event);
+      game->HandleMouseButtonEvent(event);
       break;
     }
     default:
@@ -46,8 +46,8 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 }
 
 void SDL_AppQuit(void* appstate, [[maybe_unused]] SDL_AppResult result) {
-  auto* app = static_cast<Game*>(appstate);
-  delete app;
+  auto* game = static_cast<Game*>(appstate);
+  delete game;
 
   SDL_Quit();
 }

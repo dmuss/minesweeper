@@ -3,32 +3,30 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "sprites.hpp"
+#include "scenes/scene_manager.hpp"
 
 bool Game::isInit_ = false;
 
 Game::Game()
-    : running_(true),
-      // Window size set in scene.
+    :  // Window size set in scene.
       window_(SDL3::CreateWindow("minesweeper", 0, 0, 0)),
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
       spritesheet_(
-          SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")) {
+          SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
+      running_(true),
+      sceneManager_{*this, Scene::Game} {
   SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
   SDL_assert(!isInit_);
   isInit_ = true;
 
   SDL_SetTextureScaleMode(spritesheet_.get(), SDL_SCALEMODE_NEAREST);
-
-  // TODO: TEMP
-  gameScene_.OnEnter(*this);
 }
 
 void Game::HandleMouseButtonEvent(SDL_Event* mouseEvent) {
   SDL_assert(mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_UP ||
              mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_DOWN);
 
-  gameScene_.Update(*this, mouseEvent);
+  sceneManager_.Update(mouseEvent);
 }
 
 SDL_AppResult Game::Tick() {
@@ -39,7 +37,7 @@ SDL_AppResult Game::Tick() {
   lastFrameMS_ = currFrameMS_;
 
   SDL_RenderClear(renderer_.get());
-  gameScene_.Draw(*this);
+  sceneManager_.Draw();
   SDL_RenderPresent(renderer_.get());
 
   if (deltaMS_ < TARGET_FRAME_TIME_MS_) {
@@ -50,7 +48,11 @@ SDL_AppResult Game::Tick() {
 }
 
 void Game::SetWindowSize(SDL_Point requestedSize) {
-  SDL_SetWindowSize(window_.get(), requestedSize.x, requestedSize.y);
+  // TODO: SDL error checks through helper/macro.
+  if (!SDL_SetWindowSize(window_.get(), requestedSize.x, requestedSize.y)) {
+    SDL_Log("Failed to set window size: %s", SDL_GetError());
+    running_ = false;
+  };
 }
 
 void Game::RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect) {
