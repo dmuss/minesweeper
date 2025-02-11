@@ -8,6 +8,7 @@
 void Minefield::reset_(GameDifficulty difficulty) {
   numRevealedCells_ = 0;
   isFirstClick_ = true;
+  state_ = MinefieldState::Playing;
 
   switch (difficulty) {
     case GameDifficulty::Easy: {
@@ -37,6 +38,7 @@ void Minefield::reset_(GameDifficulty difficulty) {
 
   SDL_assert(gridSize_.x >= 0);
   SDL_assert(gridSize_.y >= 0);
+  SDL_assert(numMines_ > 0);
 
   cells_.resize(static_cast<size_t>(gridSize_.x * gridSize_.y));
 
@@ -107,12 +109,19 @@ void Minefield::removeMine_(Cell& cell) {
   cell.SetEmpty();
 
   for (const auto& dir : dirs_) {
-    SDL_Point neighbour = {
+    SDL_Point neighbourPos = {
         .x = cell.X() + dir.x,
         .y = cell.Y() + dir.y,
     };
 
-    if (inBounds_(neighbour)) { getCellAt_(neighbour).RemoveAdjacentMine(); }
+    if (inBounds_(neighbourPos)) {
+      auto& neighbourCell = getCellAt_(neighbourPos);
+      if (neighbourCell.IsMine()) {
+        cell.AddAdjacentMine();
+      } else {
+        neighbourCell.RemoveAdjacentMine();
+      }
+    }
   }
 }
 
