@@ -43,6 +43,11 @@ class Game {
   /// \param srcRect The source rectangle for the sprite to render.
   /// \param destRect The location on the window to render the sprite.
   void RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect);
+
+  /// Sets the color modification value for rendering sprites.
+  ///
+  /// \param color The color to modify sprite rendering with.
+  void SetTextureColorMod(SDL_Color color);
 };
 
 #endif

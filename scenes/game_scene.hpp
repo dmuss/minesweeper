@@ -4,7 +4,7 @@
 #include "scene_interface.hpp"
 #include "../minefield.hpp"
 
-class GameScene : public SceneInterface {
+class GameScene final : public SceneInterface {
  private:
   // TODO: Grid dimensions should exist in Minefield. When minefield is to be
   // displayed, resize window based on the size of the minefield.

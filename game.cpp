@@ -3,18 +3,18 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "SDL3/SDL_render.h"
 #include "scenes/scene_manager.hpp"
 
 bool Game::isInit_ = false;
 
 Game::Game()
-    :  // Window size set in scene.
-      window_(SDL3::CreateWindow("minesweeper", 0, 0, 0)),
+    : window_(SDL3::CreateWindow("minesweeper", 0, 0, 0)),
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
       running_(true),
-      sceneManager_{*this, Scene::Game} {
+      sceneManager_{*this, Scene::Menu} {
   SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
   SDL_assert(!isInit_);
   isInit_ = true;
@@ -57,4 +57,8 @@ void Game::SetWindowSize(SDL_Point requestedSize) {
 
 void Game::RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect) {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
+}
+
+void Game::SetTextureColorMod(SDL_Color color) {
+  SDL_SetTextureColorMod(spritesheet_.get(), color.r, color.g, color.b);
 }

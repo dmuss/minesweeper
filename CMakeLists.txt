@@ -81,6 +81,8 @@ game.cpp
 cell.cpp
 minefield.cpp
 scenes/game_scene.cpp
+scenes/menu_scene.cpp
+scenes/scene_manager.cpp
 )
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME} PRIVATE
