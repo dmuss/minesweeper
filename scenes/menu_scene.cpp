@@ -29,11 +29,11 @@ void MenuScene::Update([[maybe_unused]] Game& game,
       if (leftClicked) {
         // TODO: start game with difficulty
         if (button.label == "EASY") {
-          SDL_Log("go to easy game");
+          game.StartGame(GameDifficulty::Easy);
         } else if (button.label == "MEDIUM") {
-          SDL_Log("go to medium game");
+          game.StartGame(GameDifficulty::Medium);
         } else if (button.label == "HARD") {
-          SDL_Log("go to hard game");
+          game.StartGame(GameDifficulty::Hard);
         } else {
           SDL_Log("quit request");
         }

@@ -35,7 +35,7 @@ enum class CellState : uint8_t {
 class Cell {
  private:
   /// This cell's coordinate position in the minefield.
-  SDL_Point pos_ = {.x = 0, .y = 0};
+  SDL_Point pos_;
   /// The underlying value of the cell, regardless of its state.
   ///
   /// This value will be in [0, 9], where zero through eight represents the
@@ -48,7 +48,7 @@ class Cell {
 
  public:
   /// Create a cell at a given position.
-  Cell(SDL_Point pos);
+  Cell(SDL_Point pos = {.x = 0, .y = 0});
 
   inline bool operator==(const Cell& other) const {
     return (this->X() == other.X()) && (this->Y() == other.Y());

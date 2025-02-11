@@ -4,6 +4,8 @@
 #include "scenes/scene_manager.hpp"
 #include "sdl_helpers.hpp"
 
+enum class GameDifficulty { Easy, Medium, Hard };
+
 class Game {
  private:
   static bool isInit_;
@@ -19,6 +21,7 @@ class Game {
   uint64_t currFrameMS_;
   uint64_t lastFrameMS_;
   uint64_t deltaMS_;
+  GameDifficulty difficulty_;
 
   SceneManager sceneManager_;
 
@@ -32,6 +35,14 @@ class Game {
 
   /// Advances the game a single tick, including any updates and rendering.
   SDL_AppResult Tick();
+
+  /// Returns the currently set difficulty.
+  GameDifficulty Difficulty() const;
+
+  /// Start a game with the provided difficulty.
+  ///
+  /// \param difficulty The requested difficulty to start the game with.
+  void StartGame(GameDifficulty difficulty);
 
   /// Sets the game's current window to the requested size.
   ///

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 
 #include "SDL3/SDL_render.h"
 #include "scenes/scene_manager.hpp"
@@ -14,6 +15,7 @@ Game::Game()
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
       running_(true),
+      difficulty_(GameDifficulty::Easy),
       sceneManager_{*this, Scene::Menu} {
   SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
   SDL_assert(!isInit_);
@@ -45,6 +47,13 @@ SDL_AppResult Game::Tick() {
   }
 
   return SDL_APP_CONTINUE;
+}
+
+GameDifficulty Game::Difficulty() const { return difficulty_; }
+
+void Game::StartGame(GameDifficulty difficulty) {
+  difficulty_ = difficulty;
+  sceneManager_.SwitchScene(Scene::Game);
 }
 
 void Game::SetWindowSize(SDL_Point requestedSize) {

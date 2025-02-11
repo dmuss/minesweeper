@@ -2,6 +2,7 @@
 #define SCENES_MENU_SCENE_HPP_
 
 #include <array>
+#include <string>
 
 #include "scene_interface.hpp"
 

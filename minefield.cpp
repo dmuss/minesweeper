@@ -2,7 +2,72 @@
 
 #include <random>
 
+#include "game.hpp"
 #include "sdl_helpers.hpp"
+
+void Minefield::reset_(GameDifficulty difficulty) {
+  numRevealedCells_ = 0;
+  isFirstClick_ = true;
+
+  switch (difficulty) {
+    case GameDifficulty::Easy: {
+      gridSize_.x = 9;
+      gridSize_.y = 9;
+
+      numMines_ = 10;
+      break;
+    }
+    case GameDifficulty::Medium: {
+      gridSize_.x = 16;
+      gridSize_.y = 16;
+
+      numMines_ = 40;
+      break;
+    }
+    case GameDifficulty::Hard: {
+      gridSize_.x = 30;
+      gridSize_.y = 16;
+
+      numMines_ = 99;
+      break;
+    }
+    default:
+      break;
+  }
+
+  SDL_assert(gridSize_.x >= 0);
+  SDL_assert(gridSize_.y >= 0);
+
+  cells_.resize(static_cast<size_t>(gridSize_.x * gridSize_.y));
+
+  // Re-init the cells with proper positions.
+  for (size_t i = 0; i < cells_.size(); ++i) {
+    const SDL_Point pos = {
+        .x = static_cast<int>(i % static_cast<size_t>(gridSize_.x)),
+        .y = static_cast<int>(i / static_cast<size_t>(gridSize_.x)),
+    };
+    cells_[i] = Cell(pos);
+  }
+
+  // Set mines.
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<uint8_t> randX(
+      0, static_cast<uint8_t>(gridSize_.x - 1));
+  std::uniform_int_distribution<uint8_t> randY(
+      0, static_cast<uint8_t>(gridSize_.y - 1));
+
+  std::unordered_set<SDL_Point, SDLPointHash> mines{};
+  while (mines.size() < numMines_) {
+    SDL_Point pos = {
+        .x = randX(gen),
+        .y = randY(gen),
+    };
+
+    auto [_, inserted] = mines.insert(pos);
+    if (inserted) { setMine_(getCellAt_(pos)); }
+  }
+}
 
 void Minefield::reveal_() {
   for (auto& cell : cells_) { cell.Reveal(); }
@@ -100,37 +165,13 @@ void Minefield::setMineNextAvailablePos_() {
   }
 }
 
-Minefield::Minefield() {
-  // Create grid.
-  for (auto i = 0; i < gridSize_.x * gridSize_.y; ++i) {
-    SDL_Point pos = {
-        .x = i % gridSize_.x,
-        .y = i / gridSize_.x,
-    };
-    cells_.push_back(Cell(pos));
-  }
-
-  // Set mines.
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<uint8_t> randX(
-      0, static_cast<uint8_t>(gridSize_.x - 1));
-  std::uniform_int_distribution<uint8_t> randY(
-      0, static_cast<uint8_t>(gridSize_.y - 1));
-
-  std::unordered_set<SDL_Point, SDLPointHash> mines{};
-  while (mines.size() < numMines_) {
-    SDL_Point pos = {
-        .x = randX(gen),
-        .y = randY(gen),
-    };
-
-    auto [_, inserted] = mines.insert(pos);
-    if (inserted) { setMine_(getCellAt_(pos)); }
-  }
-}
+void Minefield::Reset(GameDifficulty difficulty) { reset_(difficulty); }
 
 MinefieldState Minefield::State() const { return state_; }
+
+int Minefield::Width() const { return gridSize_.x; }
+
+int Minefield::Height() const { return gridSize_.y; }
 
 std::vector<Cell> Minefield::Cells() const { return cells_; }
 

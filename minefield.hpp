@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "cell.hpp"
+#include "game.hpp"
 
 enum class MinefieldState : uint8_t { Playing, Won, Lost };
 
@@ -20,11 +21,16 @@ class Minefield {
       SDL_Point{.x = 0, .y = 1},  SDL_Point{.x = -1, .y = 1},
   };
   bool isFirstClick_ = true;
-  SDL_Point gridSize_ = {.x = 9, .y = 9};  // TODO: Configurable.
+  SDL_Point gridSize_;
   MinefieldState state_ = MinefieldState::Playing;
-  uint8_t numMines_ = 10;
-  uint16_t numRevealedCells_ = 0;
+  uint8_t numMines_;
+  uint16_t numRevealedCells_;
   std::vector<Cell> cells_;
+
+  /// Resets the minefield based on the requested difficulty.
+  ///
+  /// \param difficulty The difficulty to reset the minefield to.
+  void reset_(GameDifficulty difficulty);
 
   /// Reveals the whole minefield.
   void reveal_();
@@ -58,18 +64,32 @@ class Minefield {
   void setMineNextAvailablePos_();
 
  public:
-  Minefield();
+  /// Resets the minefield to the provided difficulty.
+  ///
+  /// \param difficulty The difficulty to set the minefield up for.
+  void Reset(GameDifficulty difficulty);
 
+  /// Returns the current play state of the minefield.
   MinefieldState State() const;
+
+  // Returns the minefield's width.
+  int Width() const;
+
+  // Returns the minefield's height.
+  int Height() const;
 
   /// Returns all of the current cells in the minefield.
   std::vector<Cell> Cells() const;
 
   /// Reveals the cell at the provided position in the minefield.
+  ///
+  /// \ param pos The coordinate position of the cell to reveal.
   void RevealCell(SDL_Point pos);
 
   /// Change the flagged state of the cell at the provided position in the
   /// minefield.
+  ///
+  /// \ param pos The coordinate position of the cell to flag.
   void ChangeFlag(SDL_Point pos);
 };
 

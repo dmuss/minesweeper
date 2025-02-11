@@ -6,8 +6,10 @@
 #include "../game.hpp"
 
 void GameScene::OnEnter(Game& game) {
-  game.SetWindowSize({.x = CELL_GRID_WIDTH_ * CELL_RENDER_SIZE_PX_,
-                      .y = CELL_GRID_HEIGHT_ * CELL_RENDER_SIZE_PX_});
+  minefield_->Reset(game.Difficulty());
+
+  game.SetWindowSize({.x = minefield_->Width() * CELL_RENDER_SIZE_PX_,
+                      .y = minefield_->Height() * CELL_RENDER_SIZE_PX_});
 }
 
 void GameScene::Update([[maybe_unused]] Game& game, SDL_Event* mouseEvent) {
