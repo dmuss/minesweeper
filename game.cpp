@@ -4,8 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "SDL3/SDL_pixels.h"
-#include "SDL3_ttf/SDL_ttf.h"
 #include "scenes/scene_manager.hpp"
 
 bool Game::isInit_ = false;
@@ -15,7 +13,7 @@ Game::Game()
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
-      font_(SDL3::CreateFont("SILKSCREENFONT.TTF", 36)),
+      font_(SDL3::CreateFont("SILKSCREENFONT.TTF", DEFAULT_FONT_PT_SIZE_)),
       running_(true),
       difficulty_(GameDifficulty::Easy),
       sceneManager_{*this, Scene::Menu} {
@@ -72,7 +70,10 @@ void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
 }
 
-void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color) {
+void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
+                      float ptSize) {
+  TTF_SetFontSize(font_.get(), ptSize);
+
   // Create font texture.
   auto surface = TTF_RenderText_Solid(font_.get(), str.c_str(), 0, color);
   // TODO: error handling

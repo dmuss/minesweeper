@@ -10,6 +10,12 @@ class MenuScene final : public SceneInterface {
  private:
   static constexpr SDL_Point WINDOW_SIZE_{.x = 800, .y = 800};
   static constexpr SDL_Point BUTTON_SIZE_{.x = 546, .y = 75};
+  static constexpr SDL_FRect TITLE_RECT_{
+      .x = 127,
+      .y = 100,
+      .w = BUTTON_SIZE_.x,
+      .h = BUTTON_SIZE_.y,
+  };
 
   struct MenuButton {
     std::string label;

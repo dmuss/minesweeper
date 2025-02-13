@@ -2,6 +2,7 @@
 
 #include "../game.hpp"
 #include "../sprites.hpp"
+#include "SDL3/SDL_pixels.h"
 
 bool MenuScene::mouseInButton_(SDL_Point mousePos, const MenuButton& button) {
   auto mouseX = static_cast<float>(mousePos.x);
@@ -42,6 +43,10 @@ void MenuScene::Update([[maybe_unused]] Game& game, MouseState mouseState) {
 }
 
 void MenuScene::Draw(Game& game) {
+  game.RenderText(
+      "MINESWEEPER", TITLE_RECT_,
+      SDL_Color{.r = 0xFF, .g = 0xFF, .b = 0xFF, .a = SDL_ALPHA_OPAQUE}, 72);
+
   for (const auto& button : buttons_) {
     game.SetTextureColorMod(button.color);
 

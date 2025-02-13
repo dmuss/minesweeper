@@ -3,7 +3,6 @@
 
 #include <string>
 
-#include "SDL3/SDL_pixels.h"
 #include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"
 #include "sdl_helpers.hpp"
@@ -20,6 +19,8 @@ class Game {
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
   SDL3::TextureUPtr spritesheet_;
+
+  static constexpr float DEFAULT_FONT_PT_SIZE_ = 40;
   SDL3::FontUPtr font_;
 
   bool running_;
@@ -70,9 +71,10 @@ class Game {
   /// \param str The string to render.
   /// \param rect The rectangle to center the text within.
   /// \param color The requested color of the text.
-  void RenderText(const std::string& str, SDL_FRect rect,
-                  SDL_Color color = {
-                      .r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE});
+  void RenderText(
+      const std::string& str, SDL_FRect rect,
+      SDL_Color color = {.r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE},
+      float ptSize = DEFAULT_FONT_PT_SIZE_);
 
   /// Sets the color modification value for rendering sprites.
   ///
