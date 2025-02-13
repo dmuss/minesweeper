@@ -42,6 +42,8 @@ class SDL3 {
   using WindowUPtr = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
   using RendererUPtr =
       std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+  using SurfaceUPtr =
+      std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)>;
   using TextureUPtr =
       std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
   using FontUPtr = std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)>;
@@ -56,6 +58,14 @@ class SDL3 {
                                             const char* name) {
     return getSDLResource_(SDL_CreateRenderer, SDL_DestroyRenderer, window,
                            name);
+  }
+
+  inline static SurfaceUPtr CreateBlendedTextSurface(TTF_Font* font,
+                                                     const char* str,
+                                                     size_t length,
+                                                     SDL_Color color) {
+    return getSDLResource_(TTF_RenderText_Blended, SDL_DestroySurface, font,
+                           str, length, color);
   }
 
   inline static TextureUPtr CreateTextureFromImage(SDL_Renderer* renderer,

@@ -72,19 +72,16 @@ void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
 
 void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
                       float ptSize) {
+  if (textTextures_.find(str) == textTextures_.end()) {
+    auto surface =
+        SDL3::CreateBlendedTextSurface(font_.get(), str.c_str(), 0, color);
+
+    textTextures_.insert(
+        {str, SDL3::CreateTextureFromSurface(renderer_.get(), surface.get())});
+  }
+
   TTF_SetFontSize(font_.get(), ptSize);
 
-  // Create font texture.
-  auto surface = TTF_RenderText_Solid(font_.get(), str.c_str(), 0, color);
-  // TODO: error handling
-  if (!surface) {
-    SDL_Log("Failed to create text surface!");
-    exit(1);
-  }
-  auto texture = SDL3::CreateTextureFromSurface(renderer_.get(), surface);
-  SDL_DestroySurface(surface);
-
-  // Center text in rectangle.
   int textWidth{0};
   int textHeight{0};
   TTF_GetStringSize(font_.get(), str.c_str(), 0, &textWidth, &textHeight);
@@ -96,8 +93,8 @@ void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
       .h = static_cast<float>(textHeight),
   };
 
-  // Render text.
-  SDL_RenderTexture(renderer_.get(), texture.get(), nullptr, &textRect);
+  SDL_RenderTexture(renderer_.get(), textTextures_.at(str).get(), nullptr,
+                    &textRect);
 }
 
 void Game::SetTextureColorMod(SDL_Color color) {

@@ -23,6 +23,8 @@ class Game {
 
   static constexpr float DEFAULT_FONT_PT_SIZE_ = 40;
   SDL3::FontUPtr font_;
+  /// Cached string textures.
+  std::unordered_map<std::string, SDL3::TextureUPtr> textTextures_;
 
   bool running_;
   uint64_t currFrameMS_;
