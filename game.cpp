@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "SDL3/SDL_render.h"
 #include "scenes/scene_manager.hpp"
 
 bool Game::isInit_ = false;
@@ -14,6 +13,7 @@ Game::Game()
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
+      font_(SDL3::CreateFont("SILKSCREENFONT.TTF", 36)),
       running_(true),
       difficulty_(GameDifficulty::Easy),
       sceneManager_{*this, Scene::Menu} {

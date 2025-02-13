@@ -17,6 +17,7 @@ class Game {
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
   SDL3::TextureUPtr spritesheet_;
+  SDL3::FontUPtr font_;
 
   bool running_;
   uint64_t currFrameMS_;

@@ -17,6 +17,12 @@ SDL_AppResult SDL_AppInit(void** appstate, [[maybe_unused]] int argc,
     return SDL_APP_FAILURE;
   }
 
+  if (!TTF_Init()) {
+    SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION,
+                    "Failed to initialize SDL_ttf! %s", SDL_GetError());
+    return SDL_APP_FAILURE;
+  }
+
   *appstate = new Game();
 
   return SDL_APP_CONTINUE;

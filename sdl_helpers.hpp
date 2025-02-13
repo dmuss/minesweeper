@@ -9,6 +9,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 class SDL3 {
   /// Create and return a unique pointer to an SDL resource that will destroy
@@ -43,6 +44,7 @@ class SDL3 {
       std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
   using TextureUPtr =
       std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
+  using FontUPtr = std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)>;
 
   inline static WindowUPtr CreateWindow(const char* title, int w, int h,
                                         SDL_WindowFlags flags) {
@@ -60,6 +62,11 @@ class SDL3 {
                                                    const char* filename) {
     return getSDLResource_(IMG_LoadTexture, SDL_DestroyTexture, renderer,
                            filename);
+  }
+
+  inline static FontUPtr CreateFont(const std::string& filePath, float ptSize) {
+    return getSDLResource_(TTF_OpenFont, TTF_CloseFont, filePath.c_str(),
+                           ptSize);
   }
 };
 
