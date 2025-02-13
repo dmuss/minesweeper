@@ -5,6 +5,7 @@
 
 #include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"
+#include "constants.hpp"
 #include "sdl_helpers.hpp"
 
 enum class GameDifficulty { Easy, Medium, Hard };
@@ -71,10 +72,9 @@ class Game {
   /// \param str The string to render.
   /// \param rect The rectangle to center the text within.
   /// \param color The requested color of the text.
-  void RenderText(
-      const std::string& str, SDL_FRect rect,
-      SDL_Color color = {.r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE},
-      float ptSize = DEFAULT_FONT_PT_SIZE_);
+  void RenderText(const std::string& str, SDL_FRect rect,
+                  SDL_Color color = Colors::Black,
+                  float ptSize = DEFAULT_FONT_PT_SIZE_);
 
   /// Sets the color modification value for rendering sprites.
   ///

@@ -4,6 +4,7 @@
 #include <array>
 #include <string>
 
+#include "../constants.hpp"
 #include "scene_interface.hpp"
 
 class MenuScene final : public SceneInterface {
@@ -30,25 +31,29 @@ class MenuScene final : public SceneInterface {
           .isDown = false,
           .rect =
               {.x = 127, .y = 200, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
-          .color = {.r = 0xFF, .g = 0xFF, .b = 0xFF, .a = SDL_ALPHA_OPAQUE}},
+          .color = Colors::Green,
+      },
       MenuButton{
           .label = "MEDIUM",
           .isDown = false,
           .rect =
               {.x = 127, .y = 300, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
-          .color = {.r = 0xFF, .g = 0x0, .b = 0xFF, .a = SDL_ALPHA_OPAQUE}},
+          .color = Colors::Yellow,
+      },
       MenuButton{
           .label = "HARD",
           .isDown = false,
           .rect =
               {.x = 127, .y = 400, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
-          .color = {.r = 0x0, .g = 0xFF, .b = 0xFF, .a = SDL_ALPHA_OPAQUE}},
+          .color = Colors::Orange,
+      },
       MenuButton{
           .label = "QUIT",
           .isDown = false,
           .rect =
               {.x = 127, .y = 500, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
-          .color = {.r = 0x0, .g = 0xFF, .b = 0x0, .a = SDL_ALPHA_OPAQUE}},
+          .color = Colors::Gray,
+      },
   };
 
   bool mouseInButton_(SDL_Point mousePos, const MenuButton& button);
