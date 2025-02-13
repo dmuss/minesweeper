@@ -46,7 +46,7 @@ void MenuScene::Draw(Game& game) {
   game.RenderText("MINESWEEPER", TITLE_RECT_, Colors::White, 72);
 
   for (const auto& button : buttons_) {
-    game.SetTextureColorMod(button.color);
+    game.SetSpriteTextureColorMod(button.color);
 
     const auto buttonSpriteRect =
         button.isDown ? Sprites::ButtonDown : Sprites::ButtonUp;
@@ -57,7 +57,7 @@ void MenuScene::Draw(Game& game) {
                   : game.RenderText(button.label, button.rect);
   }
 
-  game.SetTextureColorMod(Colors::White);
+  game.SetSpriteTextureColorMod(Colors::White);
 }
 
 void MenuScene::OnLeave([[maybe_unused]] Game& game) {}

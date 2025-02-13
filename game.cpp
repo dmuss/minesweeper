@@ -123,6 +123,6 @@ void Game::RenderTextWithAlpha(const std::string& str, SDL_FRect rect,
   SDL_RenderTexture(renderer_.get(), texture, nullptr, &textRect);
 }
 
-void Game::SetTextureColorMod(SDL_Color color) {
+void Game::SetSpriteTextureColorMod(SDL_Color color) {
   SDL_SetTextureColorMod(spritesheet_.get(), color.r, color.g, color.b);
 }

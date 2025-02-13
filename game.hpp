@@ -108,7 +108,7 @@ class Game {
   /// Sets the color modification value for rendering sprites.
   ///
   /// \param color The color to modify sprite rendering with.
-  void SetTextureColorMod(SDL_Color color);
+  void SetSpriteTextureColorMod(SDL_Color color);
 };
 
 #endif

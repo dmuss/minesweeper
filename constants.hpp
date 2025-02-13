@@ -1,7 +1,10 @@
 #ifndef CONSTANTS_HPP_
 #define CONSTANTS_HPP_
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL3/SDL_pixels.h>
+#pragma GCC diagnostic pop
 
 namespace Colors {
 constexpr SDL_Color Black{.r = 0, .g = 0, .b = 0, .a = SDL_ALPHA_OPAQUE};
