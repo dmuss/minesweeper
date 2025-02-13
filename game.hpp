@@ -14,18 +14,31 @@ class Game {
  private:
   static bool isInit_;
 
-  static constexpr uint8_t TARGET_FPS_ = 30;
-  static constexpr uint8_t TARGET_FRAME_TIME_MS_ = 1000 / TARGET_FPS_;
-
   SDL3::WindowUPtr window_;
   SDL3::RendererUPtr renderer_;
   SDL3::TextureUPtr spritesheet_;
 
   static constexpr float DEFAULT_FONT_PT_SIZE_ = 40;
   SDL3::FontUPtr font_;
-  /// Cached string textures.
   std::unordered_map<std::string, SDL3::TextureUPtr> textTextures_;
 
+  /// Create a texture for requested string.
+  ///
+  /// \param str The text to be rendered.
+  /// \param color The color to render the text in.
+  void createTextTexture_(const std::string& str, SDL_Color color);
+
+  /// Get the destination rectangle that centers the provided string in the
+  /// containing rectangle.
+  ///
+  /// \param str The text to be rendered.
+  /// \param containinRect The rectangle to center the text within.
+  /// \return The rectangle of the centered text.
+  SDL_FRect getCenteredTextRect_(const std::string& str,
+                                 SDL_FRect containingRect);
+
+  static constexpr uint8_t TARGET_FPS_ = 30;
+  static constexpr uint8_t TARGET_FRAME_TIME_MS_ = 1000 / TARGET_FPS_;
   bool running_;
   uint64_t currFrameMS_;
   uint64_t lastFrameMS_;
@@ -74,9 +87,23 @@ class Game {
   /// \param str The string to render.
   /// \param rect The rectangle to center the text within.
   /// \param color The requested color of the text.
+  /// \param alpha The alpha value to render the text at.
+  /// \param ptSize The point size to render the text at.
   void RenderText(const std::string& str, SDL_FRect rect,
                   SDL_Color color = Colors::Black,
                   float ptSize = DEFAULT_FONT_PT_SIZE_);
+
+  /// Renders a text string with alpha blending.
+  ///
+  /// \param str The string to render.
+  /// \param rect The rectangle to center the text within.
+  /// \param alpha The alpha value to blend the texture with.
+  /// \param color The requested color of the text.
+  /// \param alpha The alpha value to render the text at.
+  /// \param ptSize The point size to render the text at.
+  void RenderTextWithAlpha(const std::string& str, SDL_FRect rect,
+                           uint8_t alpha, SDL_Color color = Colors::Black,
+                           float ptSize = DEFAULT_FONT_PT_SIZE_);
 
   /// Sets the color modification value for rendering sprites.
   ///

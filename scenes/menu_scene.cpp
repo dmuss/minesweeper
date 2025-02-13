@@ -25,6 +25,7 @@ void MenuScene::Update([[maybe_unused]] Game& game, MouseState mouseState) {
       if (mouseState.leftDown) { button.isDown = true; }
 
       if (mouseState.leftClicked) {
+        // TODO: Can this be cleaned up?
         if (button.label == "EASY") {
           game.StartGame(GameDifficulty::Easy);
         } else if (button.label == "MEDIUM") {
@@ -52,7 +53,8 @@ void MenuScene::Draw(Game& game) {
 
     game.RenderSprite(buttonSpriteRect, button.rect);
 
-    game.RenderText(button.label, button.rect);
+    button.isDown ? game.RenderTextWithAlpha(button.label, button.rect, 200)
+                  : game.RenderText(button.label, button.rect);
   }
 
   game.SetTextureColorMod(Colors::White);

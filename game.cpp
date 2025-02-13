@@ -8,6 +8,30 @@
 
 bool Game::isInit_ = false;
 
+void Game::createTextTexture_(const std::string& str, SDL_Color color) {
+  auto surface =
+      SDL3::CreateBlendedTextSurface(font_.get(), str.c_str(), 0, color);
+
+  textTextures_.insert(
+      {str, SDL3::CreateTextureFromSurface(renderer_.get(), surface.get())});
+}
+
+SDL_FRect Game::getCenteredTextRect_(const std::string& str,
+                                     SDL_FRect containingRect) {
+  int textWidth{0};
+  int textHeight{0};
+  TTF_GetStringSize(font_.get(), str.c_str(), 0, &textWidth, &textHeight);
+
+  return {
+      .x = static_cast<float>(containingRect.x + (containingRect.w / 2.0) -
+                              (textWidth / 2.0)),
+      .y = static_cast<float>(containingRect.y + (containingRect.h / 2.0) -
+                              (textHeight / 2.0)),
+      .w = static_cast<float>(textWidth),
+      .h = static_cast<float>(textHeight),
+  };
+}
+
 Game::Game()
     : window_(SDL3::CreateWindow("minesweeper", 0, 0, 0)),
       renderer_(SDL3::CreateRenderer(window_.get(), nullptr)),
@@ -73,28 +97,30 @@ void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
 void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
                       float ptSize) {
   if (textTextures_.find(str) == textTextures_.end()) {
-    auto surface =
-        SDL3::CreateBlendedTextSurface(font_.get(), str.c_str(), 0, color);
-
-    textTextures_.insert(
-        {str, SDL3::CreateTextureFromSurface(renderer_.get(), surface.get())});
+    createTextTexture_(str, color);
   }
 
   TTF_SetFontSize(font_.get(), ptSize);
 
-  int textWidth{0};
-  int textHeight{0};
-  TTF_GetStringSize(font_.get(), str.c_str(), 0, &textWidth, &textHeight);
-
-  const SDL_FRect textRect = {
-      .x = static_cast<float>(rect.x + (rect.w / 2.0) - (textWidth / 2.0)),
-      .y = static_cast<float>(rect.y + (rect.h / 2.0) - (textHeight / 2.0)),
-      .w = static_cast<float>(textWidth),
-      .h = static_cast<float>(textHeight),
-  };
+  const SDL_FRect textRect = getCenteredTextRect_(str, rect);
 
   SDL_RenderTexture(renderer_.get(), textTextures_.at(str).get(), nullptr,
                     &textRect);
+}
+
+void Game::RenderTextWithAlpha(const std::string& str, SDL_FRect rect,
+                               uint8_t alpha, SDL_Color color, float ptSize) {
+  if (textTextures_.find(str) == textTextures_.end()) {
+    createTextTexture_(str, color);
+  }
+
+  TTF_SetFontSize(font_.get(), ptSize);
+
+  const SDL_FRect textRect = getCenteredTextRect_(str, rect);
+
+  auto texture = textTextures_.at(str).get();
+  SDL_SetTextureAlphaMod(texture, alpha);
+  SDL_RenderTexture(renderer_.get(), texture, nullptr, &textRect);
 }
 
 void Game::SetTextureColorMod(SDL_Color color) {
