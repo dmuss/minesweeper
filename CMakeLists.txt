@@ -82,6 +82,7 @@ add_subdirectory(extern/SDL_ttf EXCLUDE_FROM_ALL)
 add_executable(${PROJECT_NAME}
   main.cpp
   game.cpp
+  input/mouse_manager.cpp
   minefield/cell.cpp
   minefield/minefield.cpp
   scenes/game_scene.cpp

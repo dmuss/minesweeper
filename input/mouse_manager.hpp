@@ -7,6 +7,7 @@
 #include <SDL3/SDL_mouse.h>
 #pragma GCC diagnostic pop
 
+/// Stores the position of and state of the left and right buttons of the mouse.
 struct MouseState {
   float x;
   float y;
@@ -23,19 +24,11 @@ class MouseManager {
   MouseState currState_;
 
  public:
-  void Update() {
-    oldState_ = currState_;
+  /// Update the mouse state for this frame.
+  void Update();
 
-    auto buttons = SDL_GetMouseState(&currState_.x, &currState_.y);
-
-    currState_.leftDown = buttons & SDL_BUTTON_LMASK;
-    currState_.leftClicked = !currState_.leftDown && oldState_.leftDown;
-
-    currState_.rightDown = buttons & SDL_BUTTON_RMASK;
-    currState_.rightClicked = !currState_.rightDown && oldState_.rightDown;
-  }
-
-  MouseState State() const { return currState_; }
+  /// Returns the current state of the mouse.
+  MouseState State() const;
 };
 
 #endif
