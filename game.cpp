@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "SDL3/SDL_pixels.h"
+#include "SDL3_ttf/SDL_ttf.h"
 #include "scenes/scene_manager.hpp"
 
 bool Game::isInit_ = false;
@@ -66,8 +68,37 @@ void Game::SetWindowSize(SDL_Point requestedSize) {
   };
 }
 
-void Game::RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect) {
+void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
+}
+
+void Game::RenderText(const std::string& str, SDL_FRect rect) {
+  SDL_Color textColor = {.r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE};
+
+  // Create font texture.
+  auto surface = TTF_RenderText_Solid(font_.get(), str.c_str(), 0, textColor);
+  // TODO: error handling
+  if (!surface) {
+    SDL_Log("Failed to create text surface!");
+    exit(1);
+  }
+  auto texture = SDL3::CreateTextureFromSurface(renderer_.get(), surface);
+  SDL_DestroySurface(surface);
+
+  // Center text in rectangle.
+  int textWidth{0};
+  int textHeight{0};
+  TTF_GetStringSize(font_.get(), str.c_str(), 0, &textWidth, &textHeight);
+
+  const SDL_FRect textRect = {
+      .x = static_cast<float>(rect.x + (rect.w / 2.0) - (textWidth / 2.0)),
+      .y = static_cast<float>(rect.y + (rect.h / 2.0) - (textHeight / 2.0)),
+      .w = static_cast<float>(textWidth),
+      .h = static_cast<float>(textHeight),
+  };
+
+  // Render text.
+  SDL_RenderTexture(renderer_.get(), texture.get(), nullptr, &textRect);
 }
 
 void Game::SetTextureColorMod(SDL_Color color) {

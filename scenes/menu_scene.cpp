@@ -49,6 +49,8 @@ void MenuScene::Draw(Game& game) {
         button.isDown ? Sprites::ButtonDown : Sprites::ButtonUp;
 
     game.RenderSprite(buttonSpriteRect, button.rect);
+
+    game.RenderText(button.label, button.rect);
   }
 
   game.SetTextureColorMod(

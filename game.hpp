@@ -60,7 +60,13 @@ class Game {
   ///
   /// \param srcRect The source rectangle for the sprite to render.
   /// \param destRect The location on the window to render the sprite.
-  void RenderSprite(const SDL_FRect& srcRect, const SDL_FRect& destRect);
+  void RenderSprite(SDL_FRect srcRect, SDL_FRect destRect);
+
+  /// Renders the provided string in the center of the provided rectangle.
+  ///
+  /// \param str The string to render.
+  /// \param rect The rectangle to center the text within.
+  void RenderText(const std::string& str, SDL_FRect rect);
 
   /// Sets the color modification value for rendering sprites.
   ///

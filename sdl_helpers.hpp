@@ -64,6 +64,12 @@ class SDL3 {
                            filename);
   }
 
+  inline static TextureUPtr CreateTextureFromSurface(SDL_Renderer* renderer,
+                                                     SDL_Surface* surface) {
+    return getSDLResource_(SDL_CreateTextureFromSurface, SDL_DestroyTexture,
+                           renderer, surface);
+  }
+
   inline static FontUPtr CreateFont(const std::string& filePath, float ptSize) {
     return getSDLResource_(TTF_OpenFont, TTF_CloseFont, filePath.c_str(),
                            ptSize);
