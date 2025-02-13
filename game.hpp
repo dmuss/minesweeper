@@ -1,6 +1,8 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <string>
+
 #include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"
 #include "sdl_helpers.hpp"

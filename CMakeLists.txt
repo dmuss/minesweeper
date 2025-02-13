@@ -75,6 +75,8 @@ set(SDLIMAGE_XPM OFF)
 set(SDLIMAGE_XV OFF)
 add_subdirectory(extern/SDL_image EXCLUDE_FROM_ALL)
 
+
+set(SDLTTF_VENDORED ON)
 add_subdirectory(extern/SDL_ttf EXCLUDE_FROM_ALL)
 
 add_executable(${PROJECT_NAME}
@@ -92,11 +94,12 @@ target_compile_options(${PROJECT_NAME} PRIVATE
   -Wconversion -Wsign-conversion -pedantic -Wnon-virtual-dtor -Wold-style-cast
   -Woverloaded-virtual
 )
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf SDL3::SDL3)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image SDL3::SDL3)
 # Web builds require preloading asset files by passing as linker options.
 if(EMSCRIPTEN)
   target_link_libraries(${PROJECT_NAME} PRIVATE 
     "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/spritesheet.png@/\""
+    "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/SILKSCREENFONT.TTF@/\""
   )
 endif()
 
