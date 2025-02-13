@@ -60,4 +60,6 @@ void MenuScene::Draw(Game& game) {
   game.SetSpriteTextureColorMod(Colors::White);
 }
 
-void MenuScene::OnLeave([[maybe_unused]] Game& game) {}
+void MenuScene::OnLeave([[maybe_unused]] Game& game) {
+  for (auto& button : buttons_) { button.isDown = false; }
+}

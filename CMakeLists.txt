@@ -99,8 +99,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_ttf::SDL3_ttf SDL3_image::SDL3
 # Web builds require preloading asset files by passing as linker options.
 if(EMSCRIPTEN)
   target_link_libraries(${PROJECT_NAME} PRIVATE 
-    "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/spritesheet.png@/\""
-    "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/SILKSCREENFONT.TTF@/\""
+    "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/assets/spritesheet.png@/\""
+    "--preload-file \"${CMAKE_CURRENT_LIST_DIR}/assets/SILKSCREENFONT.TTF@/\""
   )
 endif()
 
