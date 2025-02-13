@@ -41,7 +41,8 @@ endif()
 # Ensure submodules exist.
 if(NOT EXISTS
   "${PROJECT_SOURCE_DIR}/extern/SDL/CMakeLists.txt" OR
-  "${PROJECT_SOURCE_DIR}/extern/SDL_image/CMakeLists.txt"
+  "${PROJECT_SOURCE_DIR}/extern/SDL_image/CMakeLists.txt" OR
+  "${PROJECT_SOURCE_DIR}/extern/SDL_ttf/CMakeLists.txt"
 )
   message(
     FATAL_ERROR
@@ -74,23 +75,24 @@ set(SDLIMAGE_XPM OFF)
 set(SDLIMAGE_XV OFF)
 add_subdirectory(extern/SDL_image EXCLUDE_FROM_ALL)
 
+add_subdirectory(extern/SDL_ttf EXCLUDE_FROM_ALL)
 
 add_executable(${PROJECT_NAME}
-main.cpp
-game.cpp
-minefield/cell.cpp
-minefield/minefield.cpp
-scenes/game_scene.cpp
-scenes/menu_scene.cpp
-scenes/scene_manager.cpp
+  main.cpp
+  game.cpp
+  minefield/cell.cpp
+  minefield/minefield.cpp
+  scenes/game_scene.cpp
+  scenes/menu_scene.cpp
+  scenes/scene_manager.cpp
 )
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME} PRIVATE
--Wall -Wextra -Wshadow -Wcast-align -Wunused
--Wconversion -Wsign-conversion -pedantic -Wnon-virtual-dtor -Wold-style-cast
--Woverloaded-virtual
+  -Wall -Wextra -Wshadow -Wcast-align -Wunused
+  -Wconversion -Wsign-conversion -pedantic -Wnon-virtual-dtor -Wold-style-cast
+  -Woverloaded-virtual
 )
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image SDL3::SDL3)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf SDL3::SDL3)
 # Web builds require preloading asset files by passing as linker options.
 if(EMSCRIPTEN)
   target_link_libraries(${PROJECT_NAME} PRIVATE 
