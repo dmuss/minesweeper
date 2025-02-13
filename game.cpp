@@ -72,11 +72,9 @@ void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
 }
 
-void Game::RenderText(const std::string& str, SDL_FRect rect) {
-  SDL_Color textColor = {.r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE};
-
+void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color) {
   // Create font texture.
-  auto surface = TTF_RenderText_Solid(font_.get(), str.c_str(), 0, textColor);
+  auto surface = TTF_RenderText_Solid(font_.get(), str.c_str(), 0, color);
   // TODO: error handling
   if (!surface) {
     SDL_Log("Failed to create text surface!");

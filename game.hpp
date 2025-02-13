@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "SDL3/SDL_pixels.h"
 #include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"
 #include "sdl_helpers.hpp"
@@ -64,11 +65,14 @@ class Game {
   /// \param destRect The location on the window to render the sprite.
   void RenderSprite(SDL_FRect srcRect, SDL_FRect destRect);
 
-  /// Renders the provided string in the center of the provided rectangle.
+  /// Renders a text string.
   ///
   /// \param str The string to render.
   /// \param rect The rectangle to center the text within.
-  void RenderText(const std::string& str, SDL_FRect rect);
+  /// \param color The requested color of the text.
+  void RenderText(const std::string& str, SDL_FRect rect,
+                  SDL_Color color = {
+                      .r = 0x0, .g = 0x0, .b = 0x0, .a = SDL_ALPHA_OPAQUE});
 
   /// Sets the color modification value for rendering sprites.
   ///
