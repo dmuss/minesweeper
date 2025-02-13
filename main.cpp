@@ -29,9 +29,10 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
     case SDL_EVENT_QUIT: {
       return SDL_APP_SUCCESS;
     }
+    case SDL_EVENT_MOUSE_MOTION:
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
     case SDL_EVENT_MOUSE_BUTTON_UP: {
-      game->HandleMouseButtonEvent(event);
+      game->HandleMouseEvent();
       break;
     }
     default:

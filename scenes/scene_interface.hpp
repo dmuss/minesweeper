@@ -8,6 +8,8 @@
 #include <SDL3/SDL_events.h>
 #pragma GCC diagnostic pop
 
+#include "../input/mouse_manager.hpp"
+
 class Game;
 
 class SceneInterface {
@@ -18,7 +20,7 @@ class SceneInterface {
   virtual void OnEnter(Game& game) = 0;
 
   /// Updates the scene based on the provided mouse event.
-  virtual void Update(Game& game, SDL_Event* mouseEvent) = 0;
+  virtual void Update(Game& game, MouseState mouseState) = 0;
 
   /// Draws the scene.
   virtual void Draw(Game& game) = 0;

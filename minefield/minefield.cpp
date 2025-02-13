@@ -2,8 +2,7 @@
 
 #include <random>
 
-#include "game.hpp"
-#include "sdl_helpers.hpp"
+#include "../sdl_helpers.hpp"
 
 void Minefield::reset_(GameDifficulty difficulty) {
   numRevealedCells_ = 0;

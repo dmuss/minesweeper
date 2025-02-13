@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "cell.hpp"
-#include "game.hpp"
+#include "../game.hpp"
 
 enum class MinefieldState : uint8_t { Playing, Won, Lost };
 

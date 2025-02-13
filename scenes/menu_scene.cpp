@@ -17,17 +17,14 @@ bool MenuScene::mouseInButton_(SDL_Point mousePos, const MenuButton& button) {
 
 void MenuScene::OnEnter(Game& game) { game.SetWindowSize(WINDOW_SIZE_); }
 
-void MenuScene::Update([[maybe_unused]] Game& game,
-                       [[maybe_unused]] SDL_Event* mouseEvent) {
-  bool leftClicked = (mouseEvent->button.button == SDL_BUTTON_LEFT) &&
-                     !mouseEvent->button.down && mouseEvent->button.clicks > 0;
-
-  SDL_Point mousePos{.x = static_cast<int>(mouseEvent->button.x),
-                     .y = static_cast<int>(mouseEvent->button.y)};
+void MenuScene::Update([[maybe_unused]] Game& game, MouseState mouseState) {
+  SDL_Point mousePos{.x = static_cast<int>(mouseState.x),
+                     .y = static_cast<int>(mouseState.y)};
   for (auto& button : buttons_) {
     if (mouseInButton_(mousePos, button)) {
-      if (leftClicked) {
-        // TODO: start game with difficulty
+      if (mouseState.leftDown) { button.isDown = true; }
+
+      if (mouseState.leftClicked) {
         if (button.label == "EASY") {
           game.StartGame(GameDifficulty::Easy);
         } else if (button.label == "MEDIUM") {
@@ -37,9 +34,9 @@ void MenuScene::Update([[maybe_unused]] Game& game,
         } else {
           game.Quit();
         }
-      } else {
-        button.isDown = false;
       }
+    } else {
+      button.isDown = false;
     }
   }
 }

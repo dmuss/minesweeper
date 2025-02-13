@@ -49,7 +49,7 @@ class MenuScene final : public SceneInterface {
 
  public:
   void OnEnter(Game& game) override;
-  void Update(Game& game, SDL_Event* mouseEvent) override;
+  void Update(Game& game, MouseState mouseState) override;
   void Draw(Game& game) override;
   void OnLeave(Game& game) override;
 };

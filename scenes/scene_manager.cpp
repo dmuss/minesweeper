@@ -14,8 +14,8 @@ SceneManager::SceneManager(Game& game, Scene initialScene) : game_(game) {
   currScene_->OnEnter(game_);
 }
 
-void SceneManager::Update(SDL_Event* mouseEvent) {
-  currScene_->Update(game_, mouseEvent);
+void SceneManager::Update(MouseState mouseState) {
+  currScene_->Update(game_, mouseState);
 }
 
 void SceneManager::Draw() { currScene_->Draw(game_); }

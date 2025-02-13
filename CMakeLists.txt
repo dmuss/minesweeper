@@ -78,8 +78,8 @@ add_subdirectory(extern/SDL_image EXCLUDE_FROM_ALL)
 add_executable(${PROJECT_NAME}
 main.cpp
 game.cpp
-cell.cpp
-minefield.cpp
+minefield/cell.cpp
+minefield/minefield.cpp
 scenes/game_scene.cpp
 scenes/menu_scene.cpp
 scenes/scene_manager.cpp

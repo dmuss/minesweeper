@@ -12,25 +12,18 @@ void GameScene::OnEnter(Game& game) {
                       .y = minefield_->Height() * CELL_RENDER_SIZE_PX_});
 }
 
-void GameScene::Update([[maybe_unused]] Game& game, SDL_Event* mouseEvent) {
-  bool leftClicked = (mouseEvent->button.button == SDL_BUTTON_LEFT) &&
-                     !mouseEvent->button.down && mouseEvent->button.clicks > 0;
-  bool rightClicked = (mouseEvent->button.button == SDL_BUTTON_RIGHT) &&
-                      !mouseEvent->button.down && mouseEvent->button.clicks > 0;
-
+void GameScene::Update([[maybe_unused]] Game& game, MouseState mouseState) {
   if (minefield_->State() == MinefieldState::Playing) {
     SDL_Point gridPos = {
-        .x = static_cast<int>(
-            std::floor(mouseEvent->button.x / CELL_RENDER_SIZE_PX_)),
-        .y = static_cast<int>(
-            std::floor(mouseEvent->button.y / CELL_RENDER_SIZE_PX_)),
+        .x = static_cast<int>(std::floor(mouseState.x / CELL_RENDER_SIZE_PX_)),
+        .y = static_cast<int>(std::floor(mouseState.y / CELL_RENDER_SIZE_PX_)),
     };
 
-    if (leftClicked) { minefield_->RevealCell(gridPos); }
+    if (mouseState.leftClicked) { minefield_->RevealCell(gridPos); }
 
-    if (rightClicked) { minefield_->ChangeFlag(gridPos); }
+    if (mouseState.rightClicked) { minefield_->ChangeFlag(gridPos); }
   } else {
-    if (leftClicked || rightClicked) { game.GoToMenu(); }
+    if (mouseState.leftClicked || mouseState.rightClicked) { game.GoToMenu(); }
   }
 }
 

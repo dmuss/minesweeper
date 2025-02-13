@@ -24,11 +24,9 @@ Game::Game()
   SDL_SetTextureScaleMode(spritesheet_.get(), SDL_SCALEMODE_NEAREST);
 }
 
-void Game::HandleMouseButtonEvent(SDL_Event* mouseEvent) {
-  SDL_assert(mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_UP ||
-             mouseEvent->type == SDL_EVENT_MOUSE_BUTTON_DOWN);
-
-  sceneManager_.Update(mouseEvent);
+void Game::HandleMouseEvent() {
+  mouse_.Update();
+  sceneManager_.Update(mouse_.State());
 }
 
 SDL_AppResult Game::Tick() {

@@ -1,6 +1,7 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"
 #include "sdl_helpers.hpp"
 
@@ -23,15 +24,14 @@ class Game {
   uint64_t deltaMS_;
   GameDifficulty difficulty_;
 
+  MouseManager mouse_;
   SceneManager sceneManager_;
 
  public:
   Game();
 
-  /// Handles the provided SDL mouse button event.
-  ///
-  /// \param mouseEvent The current mouse button event to handle.
-  void HandleMouseButtonEvent(SDL_Event* mouseEvent);
+  /// Handles mouse events.
+  void HandleMouseEvent();
 
   /// Advances the game a single tick, including any updates and rendering.
   SDL_AppResult Tick();

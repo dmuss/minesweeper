@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 
+#include "../input/mouse_manager.hpp"
 #include "scene_interface.hpp"
 
 enum class Scene : uint8_t {
@@ -21,7 +22,7 @@ class SceneManager {
  public:
   explicit SceneManager(Game& game, Scene initialScene);
 
-  void Update(SDL_Event* mouseEvent);
+  void Update(MouseState mouseState);
 
   void Draw();
 
