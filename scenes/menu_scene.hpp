@@ -1,8 +1,8 @@
 #ifndef SCENES_MENU_SCENE_HPP_
 #define SCENES_MENU_SCENE_HPP_
 
-#include <array>
 #include <string>
+#include <vector>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -15,7 +15,11 @@
 
 class MenuScene final : public SceneInterface {
  private:
+#if defined(__EMSCRIPTEN__)
+  static constexpr SDL_Point WINDOW_SIZE_{.x = 800, .y = 650};
+#else
   static constexpr SDL_Point WINDOW_SIZE_{.x = 800, .y = 800};
+#endif
   static constexpr SDL_Point BUTTON_SIZE_{.x = 546, .y = 75};
   static constexpr SDL_FRect TITLE_RECT_{
       .x = 127,
@@ -31,7 +35,7 @@ class MenuScene final : public SceneInterface {
     SDL_Color color;
   };
 
-  std::array<MenuButton, 4> buttons_{
+  std::vector<MenuButton> buttons_{
       MenuButton{
           .label = "EASY",
           .isDown = false,
@@ -53,6 +57,7 @@ class MenuScene final : public SceneInterface {
               {.x = 127, .y = 400, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
           .color = Colors::Orange,
       },
+#if !defined(__EMSCRIPTEN__)
       MenuButton{
           .label = "QUIT",
           .isDown = false,
@@ -60,6 +65,7 @@ class MenuScene final : public SceneInterface {
               {.x = 127, .y = 500, .w = BUTTON_SIZE_.x, .h = BUTTON_SIZE_.y},
           .color = Colors::Gray,
       },
+#endif
   };
 
   bool mouseInButton_(SDL_Point mousePos, const MenuButton& button);
