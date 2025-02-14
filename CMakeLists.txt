@@ -80,14 +80,14 @@ set(SDLTTF_VENDORED ON)
 add_subdirectory(extern/SDL_ttf EXCLUDE_FROM_ALL)
 
 add_executable(${PROJECT_NAME}
-  main.cpp
-  game.cpp
-  input/mouse_manager.cpp
-  minefield/cell.cpp
-  minefield/minefield.cpp
-  scenes/game_scene.cpp
-  scenes/menu_scene.cpp
-  scenes/scene_manager.cpp
+  src/main.cpp
+  src/game.cpp
+  src/input/mouse_manager.cpp
+  src/minefield/cell.cpp
+  src/minefield/minefield.cpp
+  src/scenes/game_scene.cpp
+  src/scenes/menu_scene.cpp
+  src/scenes/scene_manager.cpp
 )
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME} PRIVATE
