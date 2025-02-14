@@ -43,7 +43,7 @@ void MenuScene::Update([[maybe_unused]] Game& game, MouseState mouseState) {
 }
 
 void MenuScene::Draw(Game& game) {
-  game.RenderText("MINESWEEPER", TITLE_RECT_, Colors::White, 72);
+  game.DrawText("MINESWEEPER", TITLE_RECT_, Colors::White, 72);
 
   for (const auto& button : buttons_) {
     game.SetSpriteTextureColorMod(button.color);
@@ -51,10 +51,10 @@ void MenuScene::Draw(Game& game) {
     const auto buttonSpriteRect =
         button.isDown ? Sprites::ButtonDown : Sprites::ButtonUp;
 
-    game.RenderSprite(buttonSpriteRect, button.rect);
+    game.DrawSprite(buttonSpriteRect, button.rect);
 
-    button.isDown ? game.RenderTextWithAlpha(button.label, button.rect, 200)
-                  : game.RenderText(button.label, button.rect);
+    button.isDown ? game.DrawTextWithAlpha(button.label, button.rect, 200)
+                  : game.DrawText(button.label, button.rect);
   }
 
   game.SetSpriteTextureColorMod(Colors::White);

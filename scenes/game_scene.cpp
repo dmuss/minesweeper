@@ -37,7 +37,7 @@ void GameScene::Draw(Game& game) {
     };
 
     size_t cellSpriteIdx = static_cast<size_t>(cell.State());
-    game.RenderSprite(Sprites::Cells.at(cellSpriteIdx), destRect);
+    game.DrawSprite(Sprites::Cells.at(cellSpriteIdx), destRect);
   }
 }
 

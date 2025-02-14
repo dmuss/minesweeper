@@ -83,19 +83,18 @@ void Game::GoToMenu() { sceneManager_.SwitchScene(Scene::Menu); }
 void Game::Quit() { running_ = false; }
 
 void Game::SetWindowSize(SDL_Point requestedSize) {
-  // TODO: SDL error checks through helper/macro.
   if (!SDL_SetWindowSize(window_.get(), requestedSize.x, requestedSize.y)) {
     SDL_Log("Failed to set window size: %s", SDL_GetError());
     running_ = false;
   };
 }
 
-void Game::RenderSprite(SDL_FRect srcRect, SDL_FRect destRect) {
+void Game::DrawSprite(SDL_FRect srcRect, SDL_FRect destRect) {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
 }
 
-void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
-                      float ptSize) {
+void Game::DrawText(const std::string& str, SDL_FRect rect, SDL_Color color,
+                    float ptSize) {
   if (textTextures_.find(str) == textTextures_.end()) {
     createTextTexture_(str, color);
   }
@@ -108,8 +107,8 @@ void Game::RenderText(const std::string& str, SDL_FRect rect, SDL_Color color,
                     &textRect);
 }
 
-void Game::RenderTextWithAlpha(const std::string& str, SDL_FRect rect,
-                               uint8_t alpha, SDL_Color color, float ptSize) {
+void Game::DrawTextWithAlpha(const std::string& str, SDL_FRect rect,
+                             uint8_t alpha, SDL_Color color, float ptSize) {
   if (textTextures_.find(str) == textTextures_.end()) {
     createTextTexture_(str, color);
   }

@@ -80,7 +80,7 @@ class Game {
   ///
   /// \param srcRect The source rectangle for the sprite to render.
   /// \param destRect The location on the window to render the sprite.
-  void RenderSprite(SDL_FRect srcRect, SDL_FRect destRect);
+  void DrawSprite(SDL_FRect srcRect, SDL_FRect destRect);
 
   /// Renders a text string.
   ///
@@ -89,9 +89,9 @@ class Game {
   /// \param color The requested color of the text.
   /// \param alpha The alpha value to render the text at.
   /// \param ptSize The point size to render the text at.
-  void RenderText(const std::string& str, SDL_FRect rect,
-                  SDL_Color color = Colors::Black,
-                  float ptSize = DEFAULT_FONT_PT_SIZE_);
+  void DrawText(const std::string& str, SDL_FRect rect,
+                SDL_Color color = Colors::Black,
+                float ptSize = DEFAULT_FONT_PT_SIZE_);
 
   /// Renders a text string with alpha blending.
   ///
@@ -101,9 +101,9 @@ class Game {
   /// \param color The requested color of the text.
   /// \param alpha The alpha value to render the text at.
   /// \param ptSize The point size to render the text at.
-  void RenderTextWithAlpha(const std::string& str, SDL_FRect rect,
-                           uint8_t alpha, SDL_Color color = Colors::Black,
-                           float ptSize = DEFAULT_FONT_PT_SIZE_);
+  void DrawTextWithAlpha(const std::string& str, SDL_FRect rect, uint8_t alpha,
+                         SDL_Color color = Colors::Black,
+                         float ptSize = DEFAULT_FONT_PT_SIZE_);
 
   /// Sets the color modification value for rendering sprites.
   ///
