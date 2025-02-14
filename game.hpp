@@ -1,7 +1,16 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <cstdint>
 #include <string>
+#include <unordered_map>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_pixels.h>
+#pragma GCC diagnostic pop
 
 #include "input/mouse_manager.hpp"
 #include "scenes/scene_manager.hpp"

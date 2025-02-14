@@ -1,5 +1,10 @@
 #include "mouse_manager.hpp"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#include <SDL3/SDL_mouse.h>
+#pragma GCC diagnostic pop
+
 void MouseManager::Update() {
   oldState_ = currState_;
 

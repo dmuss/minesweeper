@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include "../sprites.hpp"
-#include "../game.hpp"
 
 void GameScene::OnEnter(Game& game) {
   minefield_->Reset(game.Difficulty());

@@ -1,12 +1,6 @@
 #ifndef INPUT_MOUSE_MANAGER_HPP_
 #define INPUT_MOUSE_MANAGER_HPP_
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#include <SDL3/SDL_rect.h>
-#include <SDL3/SDL_mouse.h>
-#pragma GCC diagnostic pop
-
 /// Stores the position of and state of the left and right buttons of the mouse.
 struct MouseState {
   float x;

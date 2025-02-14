@@ -4,6 +4,12 @@
 #include <array>
 #include <string>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_pixels.h>
+#pragma GCC diagnostic pop
+
 #include "../constants.hpp"
 #include "scene_interface.hpp"
 

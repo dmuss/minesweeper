@@ -1,10 +1,9 @@
 #ifndef CELL_HPP_
 #define CELL_HPP_
 
+#include <cstdint>
 #include <functional>
 
-// TODO: Move SDL headers into single header file to suppress old-style-cast
-// warnings? Is there a way to ignore warnings for certain headers?
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL3/SDL_rect.h>

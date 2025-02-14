@@ -1,6 +1,8 @@
 #ifndef SCENES_GAME_SCENE_HPP_
 #define SCENES_GAME_SCENE_HPP_
 
+#include <cstdint>
+
 #include "scene_interface.hpp"
 #include "../minefield/minefield.hpp"
 

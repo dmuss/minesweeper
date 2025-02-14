@@ -4,7 +4,11 @@
 #include <array>
 #include <memory>
 #include <unordered_set>
-#include <vector>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#include <SDL3/SDL_rect.h>
+#pragma GCC diagnostic pop
 
 #include "cell.hpp"
 #include "../game.hpp"
