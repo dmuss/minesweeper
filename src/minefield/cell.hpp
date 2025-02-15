@@ -47,7 +47,7 @@ class Cell {
 
  public:
   /// Create a cell at a given position.
-  Cell(SDL_Point pos = {.x = 0, .y = 0});
+  explicit Cell(SDL_Point pos = {.x = 0, .y = 0});
 
   inline bool operator==(const Cell& other) const {
     return (this->X() == other.X()) && (this->Y() == other.Y());
