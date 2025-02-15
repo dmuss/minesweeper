@@ -190,8 +190,8 @@ void Minefield::RevealCell(SDL_Point pos) {
     isFirstClick_ = false;
 
     if (cell.IsMine()) {
-      removeMine_(cell);
       setMineNextAvailablePos_();
+      removeMine_(cell);
     }
   }
 
