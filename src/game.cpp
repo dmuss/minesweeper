@@ -89,7 +89,7 @@ void Game::SetWindowSize(SDL_Point requestedSize) {
   };
 }
 
-void Game::DrawSprite(SDL_FRect srcRect, SDL_FRect destRect) {
+void Game::DrawSprite(SDL_FRect srcRect, SDL_FRect destRect) const {
   SDL_RenderTexture(renderer_.get(), spritesheet_.get(), &srcRect, &destRect);
 }
 

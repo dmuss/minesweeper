@@ -89,7 +89,7 @@ class Game {
   ///
   /// \param srcRect The source rectangle for the sprite to render.
   /// \param destRect The location on the window to render the sprite.
-  void DrawSprite(SDL_FRect srcRect, SDL_FRect destRect);
+  void DrawSprite(SDL_FRect srcRect, SDL_FRect destRect) const;
 
   /// Renders a text string.
   ///
