@@ -17,7 +17,7 @@ class SceneManager {
  private:
   std::unordered_map<Scene, SceneInterfaceUPtr> scenes_;
   SceneInterface* currScene_ = nullptr;
-  Game& game_;
+  Game* game_;
 
  public:
   explicit SceneManager(Game& game, Scene initialScene);
