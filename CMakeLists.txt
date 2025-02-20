@@ -52,7 +52,7 @@ endif()
 
 if (EMSCRIPTEN)
   set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
-  set(CMAKE_EXECUTABLE_SUFFIX ".html" CACHE INTERNAL "")
+  set(CMAKE_EXECUTABLE_SUFFIX ".js" CACHE INTERNAL "")
 endif()
 
 add_subdirectory(extern/SDL EXCLUDE_FROM_ALL)
