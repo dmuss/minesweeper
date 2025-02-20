@@ -38,8 +38,7 @@ Game::Game()
       spritesheet_(
           SDL3::CreateTextureFromImage(renderer_.get(), "spritesheet.png")),
       font_(SDL3::CreateFont("SILKSCREENFONT.TTF", DEFAULT_FONT_PT_SIZE_)),
-      running_(true),
-      difficulty_(GameDifficulty::Easy),
+      running_(true), difficulty_(GameDifficulty::Easy),
       sceneManager_{*this, Scene::Menu} {
   SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
   SDL_assert(!isInit_);

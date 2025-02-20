@@ -1,0 +1,21 @@
+BasedOnStyle: LLVM 
+
+# Force pointers to the type.
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Allow single line blocks.
+AllowShortBlocksOnASingleLine: Always
+AllowShortEnumsOnASingleLine: True
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: True
+
+InsertNewlineAtEOF: true
+
+SortIncludes: false
+
+NamespaceIndentation: All
+
+IndentCaseLabels: true
+IndentAccessModifiers: true

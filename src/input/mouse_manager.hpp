@@ -13,11 +13,11 @@ struct MouseState {
 
 /// Updates and maintains the current state of the mouse every frame.
 class MouseManager {
- private:
+private:
   MouseState oldState_;
   MouseState currState_;
 
- public:
+public:
   /// Update the mouse state for this frame.
   void Update();
 

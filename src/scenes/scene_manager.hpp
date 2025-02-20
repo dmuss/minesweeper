@@ -14,19 +14,19 @@ enum class Scene : uint8_t {
 };
 
 class SceneManager {
- private:
-  std::unordered_map<Scene, SceneInterfaceUPtr> scenes_;
-  SceneInterface* currScene_ = nullptr;
-  Game* game_;
+  private:
+    std::unordered_map<Scene, SceneInterfaceUPtr> scenes_;
+    SceneInterface* currScene_ = nullptr;
+    Game* game_;
 
- public:
-  explicit SceneManager(Game& game, Scene initialScene);
+  public:
+    explicit SceneManager(Game& game, Scene initialScene);
 
-  void Update(MouseState mouseState);
+    void Update(MouseState mouseState);
 
-  void Draw();
+    void Draw();
 
-  void SwitchScene(Scene scene);
+    void SwitchScene(Scene scene);
 };
 
 #endif
