@@ -1,5 +1,7 @@
 # Minesweeper
-A classic minesweeper game with three levels of difficulty. Attempt to clear the minefield by revealing all non-mine cells.
+A classic minesweeper game with three levels of difficulty built with SDL. Attempt to clear the minefield by revealing all non-mine cells.
+
+Play it online [here](https://dmuss.github.io/minesweeper).
 
 ## How to Play
 Reveal cells by clicking the left mouse button. When a cell is revealed, it will display a number representing how many neighbouring cells contain a mine.
@@ -19,4 +21,20 @@ The game has three difficulty levels, which determine the size of the minefield 
 | Easy       | 9 x 9                                 | 10              |
 | Medium     | 16 x 16                               | 40              |
 | Hard       | 30 x 16                               | 99              |
+
+
+## Building
+
+Clone this repository and build with CMake. Dependency submodules should be downloaded automatically. 
+
+```bash
+$ git clone https://github.com/dmuss/minesweeper.git
+$ cd minesweeper
+$ mkdir build
+$ cmake -B build -S .
+$ cmake --build build
+```
+
+After building, run the executable in the `build/` folder.
+
 
