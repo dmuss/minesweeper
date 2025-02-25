@@ -88,13 +88,13 @@ class Minefield {
 
     /// Reveals the cell at the provided position in the minefield.
     ///
-    /// \ param pos The coordinate position of the cell to reveal.
+    /// \param pos The coordinate position of the cell to reveal.
     void RevealCell(SDL_Point pos);
 
     /// Change the flagged state of the cell at the provided position in the
     /// minefield.
     ///
-    /// \ param pos The coordinate position of the cell to flag.
+    /// \param pos The coordinate position of the cell to flag.
     void ChangeFlag(SDL_Point pos);
 };
 
