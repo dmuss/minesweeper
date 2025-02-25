@@ -8,6 +8,8 @@ int Cell::X() const { return pos_.x; }
 
 int Cell::Y() const { return pos_.y; }
 
+SDL_Point Cell::Pos() const { return pos_; };
+
 CellState Cell::State() const { return state_; }
 
 bool Cell::IsEmpty() const {

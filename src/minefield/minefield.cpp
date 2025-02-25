@@ -3,11 +3,12 @@
 #include <random>
 
 #include "../sdl_helpers.hpp"
+#include "../hashers.hpp"
 
 void Minefield::reset_(GameDifficulty difficulty) {
   numRevealedCells_ = 0;
-  isFirstClick_ = true;
-  state_ = MinefieldState::Playing;
+  isFirstClick_     = true;
+  state_            = MinefieldState::Playing;
 
   switch (difficulty) {
     case GameDifficulty::Easy: {
@@ -58,7 +59,7 @@ void Minefield::reset_(GameDifficulty difficulty) {
   std::uniform_int_distribution<uint8_t> randY(
       0, static_cast<uint8_t>(gridSize_.y - 1));
 
-  std::unordered_set<SDL_Point, SDLPointHash> mines{};
+  std::unordered_set<SDL_Point> mines{};
   while (mines.size() < numMines_) {
     SDL_Point pos = {
         .x = randX(gen),
@@ -125,13 +126,12 @@ void Minefield::removeMine_(Cell& cell) {
 }
 
 void Minefield::floodReveal_(Cell& cell) {
-  std::unordered_set<Cell, CellHash> revealed{};
+  std::unordered_set<Cell> revealed{};
   recurseFlood_(cell, revealed);
   revealNeighbours_(revealed);
 }
 
-void Minefield::recurseFlood_(Cell& cell,
-                              std::unordered_set<Cell, CellHash>& revealed) {
+void Minefield::recurseFlood_(Cell& cell, std::unordered_set<Cell>& revealed) {
   if (revealed.contains(cell) || !cell.IsEmpty()) { return; }
 
   revealCell_(cell);
@@ -150,8 +150,7 @@ void Minefield::recurseFlood_(Cell& cell,
   }
 }
 
-void Minefield::revealNeighbours_(
-    const std::unordered_set<Cell, CellHash>& revealed) {
+void Minefield::revealNeighbours_(const std::unordered_set<Cell>& revealed) {
   for (const auto& cell : revealed) {
     for (const auto& dir : dirs_) {
       SDL_Point neighbourPos{
