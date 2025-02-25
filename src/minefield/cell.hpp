@@ -57,6 +57,8 @@ class Cell {
     int X() const;
     /// Returns the `y` coordinate of the cell.
     int Y() const;
+    /// Returns the position of the cell in the grid.
+    SDL_Point Pos() const;
     /// Returns the cell's current render state.
     CellState State() const;
     /// Returns whether this cell is empty.
@@ -90,12 +92,6 @@ class Cell {
     ///
     /// Cycles through unrevealed, flagged, and question mark render states.
     void ChangeFlag();
-};
-
-struct CellHash {
-    size_t operator()(const Cell cell) const {
-      return std::hash<int>()(cell.X()) ^ std::hash<int>()(cell.Y());
-    }
 };
 
 #endif

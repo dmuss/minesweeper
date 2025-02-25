@@ -89,12 +89,6 @@ class SDL3 {
     }
 };
 
-struct SDLPointHash {
-    size_t operator()(const SDL_Point point) const {
-      return std::hash<int>()(point.x) ^ std::hash<int>()(point.y);
-    }
-};
-
 constexpr bool operator==(const SDL_Point& first, const SDL_Point& second) {
   return (first.x == second.x) && (first.y == second.y);
 }

@@ -59,11 +59,10 @@ class Minefield {
     void floodReveal_(Cell& cell);
 
     /// Recursive flood reveal of all empty cells adjacent to `cell`.
-    void recurseFlood_(Cell& cell,
-                       std::unordered_set<Cell, CellHash>& revealed);
+    void recurseFlood_(Cell& cell, std::unordered_set<Cell>& revealed);
 
     /// Reveal the all neighbouring cells to those contained in `revealed`.
-    void revealNeighbours_(const std::unordered_set<Cell, CellHash>& revealed);
+    void revealNeighbours_(const std::unordered_set<Cell>& revealed);
 
     /// Starting at the top and moving left-to-right across each row of the
     /// minefield, set the first non-mine cell to a mine.
